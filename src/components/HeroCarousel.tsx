@@ -61,7 +61,7 @@ export default function HeroCarousel() {
               onClick={() => setActive(i)}
               aria-label={`Show slide ${i + 1}`}
               className={`h-1.5 rounded-full transition-all ${
-                i === active ? "w-5 bg-[#C21E3A]" : "w-1.5 bg-white/40 hover:bg-white/70"
+                i === active ? "w-5 bg-[#E10E0E]" : "w-1.5 bg-white/40 hover:bg-white/70"
               }`}
             />
           ))}

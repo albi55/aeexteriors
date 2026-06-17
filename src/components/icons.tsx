@@ -77,34 +77,50 @@ export const Bolt = ({ className = "w-5 h-5", ...p }: IconProps) =>
 export const Plus = ({ className = "w-4 h-4", ...p }: IconProps) =>
   stroke(className, { ...p, strokeWidth: 2.4 } as IconProps, <path d="M12 5v14M5 12h14" />);
 
-/* ── Service line icons (keyed by slug) ── */
-const Masonry = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M3 7h18M3 12h18M3 17h18" /><path d="M9 7v5M15 7v5M6 12v5M12 12v5M18 12v5" /></>);
+/* ── Service icons (keyed by slug) ──
+   Illustrated PNG icons from /public/icons. Rendered as inline images so
+   they keep the same `<Icon className="w-N h-N" />` contract used everywhere. */
+const serviceIconSrc: Record<string, string> = {
+  masonry: "/icons/mansory.png",
+  roofing: "/icons/roofing.png",
+  siding: "/icons/siding.png",
+  gutters: "/icons/gutters.png",
+  chimneys: "/icons/chimney.png",
+  foundation: "/icons/foundation.png",
+  waterproofing: "/icons/waterproofing.png",
+};
 
-const Roofing = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M3 11l9-6 9 6" /><path d="M5 10v9h14v-9" /><path d="M9 19v-5h6v5" /></>);
+const serviceIconAlt: Record<string, string> = {
+  masonry: "Masonry icon",
+  roofing: "Roofing icon",
+  siding: "Siding icon",
+  gutters: "Gutters icon",
+  chimneys: "Chimneys icon",
+  foundation: "Foundation icon",
+  waterproofing: "Waterproofing icon",
+};
 
-const Siding = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><rect x="4" y="4" width="16" height="16" rx="1" /><path d="M4 8h16M4 12h16M4 16h16" /></>);
-
-const Gutters = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M3 6l9-3 9 3" /><path d="M4 10h16a0 0 0 010 0v2a3 3 0 01-3 3H7a3 3 0 01-3-3v-2z" /><path d="M9 15v5" /></>);
-
-const Chimneys = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M3 12l9-7 9 7" /><path d="M6 9.7V20h12v-8" /><path d="M15 5h3v3" /><path d="M9 20v-5h3v5" /></>);
-
-const Foundation = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M4 9l8-5 8 5" /><path d="M6 8v7M18 8v7" /><rect x="3" y="15" width="18" height="5" rx="1" /><path d="M11 15l1.5 5" /></>);
-
-const Waterproofing = ({ className = "w-7 h-7", ...p }: IconProps) =>
-  stroke(className, p, <><path d="M12 3s6 6.5 6 10.5a6 6 0 11-12 0C6 9.5 12 3 12 3z" /><path d="M9.5 13.5a2.5 2.5 0 002.5 2.5" /></>);
+const makeServiceIcon = (slug: string): React.FC<IconProps> => {
+  const Icon = ({ className = "w-7 h-7" }: IconProps) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={serviceIconSrc[slug]}
+      alt={serviceIconAlt[slug]}
+      className={`${className} object-contain`}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+  Icon.displayName = `ServiceIcon(${slug})`;
+  return Icon;
+};
 
 export const serviceIcons: Record<string, React.FC<IconProps>> = {
-  masonry: Masonry,
-  roofing: Roofing,
-  siding: Siding,
-  gutters: Gutters,
-  chimneys: Chimneys,
-  foundation: Foundation,
-  waterproofing: Waterproofing,
+  masonry: makeServiceIcon("masonry"),
+  roofing: makeServiceIcon("roofing"),
+  siding: makeServiceIcon("siding"),
+  gutters: makeServiceIcon("gutters"),
+  chimneys: makeServiceIcon("chimneys"),
+  foundation: makeServiceIcon("foundation"),
+  waterproofing: makeServiceIcon("waterproofing"),
 };

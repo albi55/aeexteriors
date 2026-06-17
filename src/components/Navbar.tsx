@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEstimate } from "@/components/EstimateModalProvider";
-import { Phone, ArrowRight } from "@/components/icons";
+import { Phone, ArrowRight, ShieldCheck } from "@/components/icons";
+import { PHONE, LICENSE } from "@/lib/seo-data";
 
 const nav = [
   { label: "Services", href: "/services" },
@@ -21,6 +22,10 @@ const mobileNav = [...nav, { label: "Financing", href: "/financing" }, { label: 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [panelH, setPanelH] = useState(0);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { openEstimate } = useEstimate();
 
@@ -32,6 +37,43 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => setInfoOpen(false), [pathname]);
+
+  // Auto-open the promo strip 1s after load.
+  useEffect(() => {
+    const t = setTimeout(() => setInfoOpen(true), 1000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Continuously measure the panel's natural height (content/resize-aware).
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setPanelH(el.offsetHeight));
+    ro.observe(el);
+    setPanelH(el.offsetHeight);
+    return () => ro.disconnect();
+  }, []);
+
+  // Push the whole page down by exactly the promo height when open.
+  useEffect(() => {
+    document.documentElement.style.setProperty("--promo-h", `${infoOpen ? panelH : 0}px`);
+  }, [infoOpen, panelH]);
+
+  // Close the info dropdown on outside-click or Escape.
+  useEffect(() => {
+    if (!infoOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (infoRef.current && !infoRef.current.contains(e.target as Node)) setInfoOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setInfoOpen(false); };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [infoOpen]);
 
   const isHome = pathname === "/";
   const solid = !isHome || scrolled || open;
@@ -40,19 +82,86 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50">
-      {/* ── Utility spec strip ── */}
-      <div className="hidden md:block surface-ink">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 h-9 flex items-center justify-between">
-          <span className="spec text-bone/55">NJ LIC&nbsp;#13VH13920700 — LICENSED &amp; INSURED</span>
+      {/* ── Utility strip — the whole bar expands/collapses ── */}
+      <div className="hidden md:block bg-brand-deep text-white relative z-50" ref={infoRef}>
+        {/* Always-visible top row */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 h-9 flex items-center justify-between text-[0.72rem] font-medium tracking-wide">
+          <span className="inline-flex items-center gap-2 text-white/85">
+            <ShieldCheck className="w-3.5 h-3.5 text-white" />
+            NJ Lic&nbsp;#{LICENSE} — Licensed &amp; Insured · Owner-Supervised
+          </span>
           <div className="flex items-center gap-6">
-            <Link href="/financing" className="spec text-ember hover:text-bone transition-colors">
+            <Link href="/financing" className="font-semibold text-white hover:text-white/80 transition-colors">
               0% Financing Available →
             </Link>
-            <span className="hidden lg:inline spec text-bone/45">Mon–Fri 7–6 · Sat 8–3</span>
-            <a href="tel:7329560411" className="spec text-bone hover:text-ember transition-colors inline-flex items-center gap-2">
+            <span className="hidden lg:inline text-white/70">Mon–Fri 7–6 · Sat 8–3</span>
+            <a href="tel:7329560411" className="hidden lg:inline-flex text-white hover:text-white/80 transition-colors items-center gap-2 font-semibold">
               <Phone className="w-3.5 h-3.5" />
-              732·956·0411
+              {PHONE}
             </a>
+            <button
+              type="button"
+              onClick={() => setInfoOpen((v) => !v)}
+              aria-expanded={infoOpen}
+              className="inline-flex items-center gap-1.5 font-semibold text-white hover:text-white/80 transition-colors"
+            >
+              {infoOpen ? "See Less" : "Special Offer"}
+              <svg
+                className={`w-3.5 h-3.5 transition-transform duration-300 ${infoOpen ? "rotate-180" : ""}`}
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Expandable lower section — animates to exact measured height */}
+        <div
+          className="overflow-hidden transition-[height] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          style={{ height: infoOpen ? panelH : 0 }}
+          aria-hidden={!infoOpen}
+        >
+          <div
+            ref={panelRef}
+            className={`max-w-7xl mx-auto px-6 lg:px-10 py-6 border-t border-white/15 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+              infoOpen ? "opacity-100 translate-y-0 delay-100" : "opacity-0 -translate-y-3"
+            }`}
+          >
+            <div className="flex items-start gap-3.5">
+              {/* Warning / badge icon */}
+              <svg
+                className="w-7 h-7 text-white flex-shrink-0 mt-0.5"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+              >
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+
+              <div className="flex-1 min-w-0">
+                <p className="font-display font-bold text-white text-base lg:text-lg leading-snug">
+                  Request Your Exclusive 20% Discount Today!
+                </p>
+                <p className="text-white/85 text-sm leading-relaxed mt-2 max-w-3xl">
+                  If you&apos;re a military member or a senior, we want to thank you with an exclusive 20% discount on
+                  our home-exterior services. Whether you need roofing, siding, gutters, or more — reach out today and
+                  claim your savings.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => { setInfoOpen(false); openEstimate(); }}
+                  className="group inline-flex items-center gap-2.5 mt-4 font-display font-bold text-white text-sm hover:gap-3.5 transition-all"
+                >
+                  Inquire Now
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full border-2 border-white/70 group-hover:bg-white group-hover:text-brand-deep transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -63,14 +172,16 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-              <span className="relative w-11 h-11 lg:w-12 lg:h-12 overflow-hidden bg-coal ring-2 ring-brand">
-                <Image src="/logo.png" alt="A&E Exteriors LLC logo" fill className="object-contain p-1" priority />
+              <span className="relative w-11 h-11 lg:w-12 lg:h-12 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-black/5">
+                <Image src="/logo-light.jpeg" alt="A&E Exteriors LLC logo" fill className="object-cover scale-[1.15]" priority />
               </span>
               <span className="leading-none">
-                <span className={`font-display font-bold text-lg lg:text-xl uppercase tracking-[0.02em] block transition-colors ${solid ? "text-coal" : "text-bone"}`}>
+                <span className={`font-display font-bold text-lg lg:text-xl tracking-tight block transition-colors ${solid ? "text-coal" : "text-bone"}`}>
                   A&amp;E Exteriors
                 </span>
-                <span className="spec text-brand">Exterior Contractor · NJ</span>
+                <span className={`text-[0.7rem] font-semibold tracking-wide transition-colors ${solid ? "text-ash" : "text-bone/70"}`}>
+                  Exterior Contractor · NJ
+                </span>
               </span>
             </Link>
 
@@ -96,11 +207,11 @@ export default function Navbar() {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
               <a
                 href="tel:7329560411"
-                className={`font-display uppercase text-sm tracking-[0.04em] inline-flex items-center gap-2 transition-colors ${
-                  solid ? "text-coal hover:text-brand" : "text-bone hover:text-ember"
+                className={`font-display font-semibold text-sm inline-flex items-center gap-2 transition-colors ${
+                  solid ? "text-coal hover:text-brand" : "text-bone hover:text-brand"
                 }`}
               >
                 <Phone className="w-4 h-4" />
@@ -109,7 +220,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={openEstimate}
-                className="group inline-flex items-center gap-2 bg-brand hover:bg-brand-deep text-white font-display uppercase text-xs tracking-[0.06em] px-4 py-3 transition-colors"
+                className="group inline-flex items-center gap-2 rounded-full bg-brand hover:bg-brand-deep text-white font-display font-bold text-sm px-5 py-2.5 shadow-[0_10px_24px_-10px_rgba(225,14,14,0.55)] hover:shadow-[0_16px_30px_-12px_rgba(225,14,14,0.6)] hover:-translate-y-0.5 transition-all duration-200"
               >
                 Free Estimate
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

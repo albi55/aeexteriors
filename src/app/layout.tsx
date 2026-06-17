@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Oswald, Barlow, JetBrains_Mono } from "next/font/google";
+import { Montserrat, Barlow, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EstimateModalProvider from "@/components/EstimateModalProvider";
 
-// Display — condensed industrial headlines (the "stencil on the truck door").
-const oswald = Oswald({
+// Display — clean, modern geometric sans for headlines.
+const montserrat = Montserrat({
   variable: "--font-oswald",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-// Body — engineer's grotesque, highly legible at small sizes.
+// Body — humanist grotesque, highly legible at small sizes.
 const barlow = Barlow({
   variable: "--font-barlow",
   subsets: ["latin"],
@@ -21,7 +21,7 @@ const barlow = Barlow({
   display: "swap",
 });
 
-// Spec labels — blueprint / part-number mono.
+// Spec labels — clean mono for small caps / kickers.
 const jetbrains = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
@@ -149,13 +149,13 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${oswald.variable} ${barlow.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${barlow.variable} ${jetbrains.variable}`}>
       <head>
         <meta name="geo.region" content="US-NJ" />
         <meta name="geo.placename" content="North Haledon" />
         <meta name="geo.position" content="40.9554;-74.1857" />
         <meta name="ICBM" content="40.9554, -74.1857" />
-        <meta name="theme-color" content="#C21E3A" />
+        <meta name="theme-color" content="#E10E0E" />
         <link rel="canonical" href="https://aeexteriorsnj.com" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
@@ -168,7 +168,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col antialiased">
         <EstimateModalProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main
+            className="flex-1 transition-[padding-top] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+            style={{ paddingTop: "var(--promo-h, 0px)" }}
+          >
+            {children}
+          </main>
           <Footer />
         </EstimateModalProvider>
       </body>

@@ -54,7 +54,7 @@ export default function WorkGallery() {
             key={img.src}
             onClick={() => setActive(i)}
             className={`relative aspect-square overflow-hidden border border-gray-200 transition-all ${
-              i === active ? "ring-2 ring-inset ring-[#C21E3A]" : "hover:opacity-80"
+              i === active ? "ring-2 ring-inset ring-[#E10E0E]" : "hover:opacity-80"
             }`}
           >
             <Image
@@ -65,7 +65,7 @@ export default function WorkGallery() {
               sizes="200px"
             />
             <div className={`absolute inset-0 flex items-end p-2 transition-colors ${
-              i === active ? "bg-[#C21E3A]/40" : "bg-black/30 hover:bg-black/10"
+              i === active ? "bg-[#E10E0E]/40" : "bg-black/30 hover:bg-black/10"
             }`}>
               <span className="text-white text-[10px] font-bold uppercase tracking-wider">{img.label}</span>
             </div>

@@ -23,10 +23,10 @@ function Card({ service, index }: { service: Service; index: number }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 group-hover:from-black/95 group-hover:via-black/70 group-hover:to-black/50 transition-all" />
 
       <div className="relative flex items-center justify-between">
-        <span className="text-white text-xs font-bold tracking-widest bg-[#C21E3A] rounded-full px-3 py-1">
+        <span className="text-white text-xs font-bold tracking-widest bg-[#E10E0E] rounded-full px-3 py-1">
           0{index + 1}
         </span>
-        <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white text-black group-hover:bg-[#C21E3A] group-hover:text-white transition-all">
+        <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white text-black group-hover:bg-[#E10E0E] group-hover:text-white transition-all">
           <svg className="w-3.5 h-3.5 -rotate-45 group-hover:rotate-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
@@ -78,7 +78,7 @@ export default function ServicesCarousel({ services }: { services: Service[] }) 
               onClick={() => setActive(i)}
               aria-label={`Go to service ${i + 1}`}
               className={`h-2 rounded-full transition-all ${
-                i === active ? "w-8 bg-[#C21E3A]" : "w-2 bg-gray-300 hover:bg-gray-400"
+                i === active ? "w-8 bg-[#E10E0E]" : "w-2 bg-gray-300 hover:bg-gray-400"
               }`}
             />
           ))}

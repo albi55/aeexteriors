@@ -122,8 +122,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <span className="text-brand">{service.title}</span>
               </nav>
               <div className="flex items-center gap-4 mb-5">
-                <span className="inline-flex items-center justify-center w-12 h-12 border-2 border-steel text-brand">
-                  {Icon ? <Icon className="w-6 h-6" /> : null}
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white p-1.5">
+                  {Icon ? <Icon className="w-full h-full" /> : null}
                 </span>
                 <span className="kicker">{service.title} Services</span>
               </div>
@@ -250,8 +250,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               return (
                 <Link key={s.slug} href={`/services/${s.slug}`} className="group bg-coal hover:bg-char p-7 transition-colors">
                   <div className="flex items-center justify-between mb-5">
-                    <span className="inline-flex items-center justify-center w-11 h-11 border-2 border-steel text-brand group-hover:bg-brand group-hover:border-brand group-hover:text-white transition-colors">
-                      {OtherIcon ? <OtherIcon className="w-5 h-5" /> : null}
+                    <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white p-1.5">
+                      {OtherIcon ? <OtherIcon className="w-full h-full" /> : null}
                     </span>
                     <ArrowRight className="w-5 h-5 text-bone/40 group-hover:text-brand transition-colors" />
                   </div>

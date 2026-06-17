@@ -54,12 +54,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-5">
-              <span className="relative w-12 h-12 overflow-hidden bg-coal ring-2 ring-brand">
-                <Image src="/logo-light.jpeg" alt="A&E Exteriors LLC" fill className="object-contain p-1" />
+              <span className="relative w-12 h-12 rounded-xl overflow-hidden bg-white shadow-sm">
+                <Image src="/logo-light.jpeg" alt="A&E Exteriors LLC" fill className="object-cover scale-[1.15]" />
               </span>
               <span className="leading-none">
-                <span className="font-display font-bold text-bone text-xl uppercase tracking-[0.02em] block">A&amp;E Exteriors</span>
-                <span className="spec text-brand">Exterior Contractor · NJ</span>
+                <span className="font-display font-bold text-bone text-xl tracking-tight block">A&amp;E Exteriors</span>
+                <span className="text-[0.7rem] font-semibold tracking-wide text-bone/60">Exterior Contractor · NJ</span>
               </span>
             </Link>
             <p className="text-bone/55 text-sm leading-relaxed mb-6 max-w-xs">

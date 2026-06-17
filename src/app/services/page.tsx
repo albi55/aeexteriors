@@ -76,8 +76,8 @@ export default function ServicesPage() {
           <section key={service.slug} id={service.slug} className={`scroll-mt-28 ${even ? "bg-bone" : "bg-concrete"}`}>
             <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-24">
               <Reveal className="flex items-start gap-5 mb-10 border-t-2 border-coal pt-8">
-                <span className="hidden sm:inline-flex flex-shrink-0 items-center justify-center w-16 h-16 border-2 border-coal/15 text-brand">
-                  {Icon ? <Icon className="w-8 h-8" /> : null}
+                <span className="hidden sm:inline-flex flex-shrink-0 items-center justify-center w-24 h-24">
+                  {Icon ? <Icon className="w-full h-full" /> : null}
                 </span>
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-2">
