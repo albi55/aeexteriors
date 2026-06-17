@@ -1,0 +1,321 @@
+@import "tailwindcss";
+
+/* ============================================================
+   A&E EXTERIORS — "JOB-SITE SPEC SHEET"
+   Rugged / industrial design language. Red + charcoal + concrete.
+   Display: Oswald (condensed) · Body: Barlow · Spec labels: JetBrains Mono
+   ============================================================ */
+
+@theme inline {
+  --font-sans: var(--font-barlow);
+  --font-display: var(--font-oswald);
+  --font-mono: var(--font-jetbrains);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* ── Neutrals: ink → concrete ── */
+  --color-ink: #131010;        /* deepest surface (warm near-black) */
+  --color-coal: #1C1815;       /* primary dark surface */
+  --color-char: #272320;       /* charcoal panels */
+  --color-steel: #38332D;      /* borders on dark */
+  --color-iron: #4A443C;       /* muted dark accents */
+  --color-ash: #6E675D;        /* muted text on light */
+  --color-stone: #908779;      /* secondary text */
+  --color-line: #CDC6BA;       /* hairline borders on light */
+  --color-cement: #D9D3C8;     /* mid concrete */
+  --color-concrete: #E9E5DC;   /* primary light background */
+  --color-bone: #F4F1EA;       /* lightest surface */
+
+  /* ── Brand red ── */
+  --color-brand: #C21E3A;      /* primary */
+  --color-brand-deep: #9C1730; /* hover / pressed */
+  --color-ember: #E0433F;      /* warm red accent on dark */
+  --color-safety: #F2B43A;     /* hazard amber — used VERY sparingly */
+}
+
+:root {
+  --background: #E9E5DC;
+  --foreground: #1C1815;
+
+  --gradient-ink: linear-gradient(155deg, #1C1815 0%, #131010 60%, #0E0B0A 100%);
+  --gradient-brand: linear-gradient(135deg, #C21E3A 0%, #9C1730 100%);
+  --gradient-steel: linear-gradient(160deg, #272320 0%, #1C1815 100%);
+
+  --shadow-soft: 0 2px 24px rgba(19, 16, 16, 0.08);
+  --shadow-block: 0 18px 50px -18px rgba(19, 16, 16, 0.45);
+  --shadow-hard: 8px 8px 0 0 #1C1815;        /* offset "stamped" shadow */
+  --shadow-hard-red: 7px 7px 0 0 #C21E3A;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Condensed display headings get tighter tracking + true uppercase punch */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-cement); }
+::-webkit-scrollbar-thumb { background: var(--color-coal); border: 2px solid var(--color-cement); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand); }
+
+::selection { background: var(--color-brand); color: #fff; }
+
+/* ============================================================
+   TYPOGRAPHIC UTILITIES
+   ============================================================ */
+
+/* Mono spec-label: blueprint / part-number flavour */
+.spec {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Section kicker — red tick + mono label */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-brand);
+}
+.kicker::before {
+  content: "";
+  width: 1.6rem;
+  height: 2px;
+  background: var(--color-brand);
+}
+.kicker.kicker-center::after {
+  content: "";
+  width: 1.6rem;
+  height: 2px;
+  background: var(--color-brand);
+}
+
+/* Big outlined "ghost" number for process steps */
+.ghost-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  -webkit-text-stroke: 1.5px currentColor;
+  color: transparent;
+  line-height: 0.8;
+}
+
+/* ============================================================
+   SURFACES
+   ============================================================ */
+
+.surface-ink { background-color: var(--color-coal); background-image: var(--gradient-ink); color: var(--color-bone); }
+.surface-steel { background-color: var(--color-char); background-image: var(--gradient-steel); color: var(--color-bone); }
+.surface-brand { background-color: var(--color-brand); background-image: var(--gradient-brand); color: #fff; }
+.surface-concrete { background-color: var(--color-concrete); }
+.surface-bone { background-color: var(--color-bone); }
+
+.shadow-soft { box-shadow: var(--shadow-soft); }
+.shadow-block { box-shadow: var(--shadow-block); }
+.shadow-hard { box-shadow: var(--shadow-hard); }
+.shadow-hard-red { box-shadow: var(--shadow-hard-red); }
+
+/* ============================================================
+   TEXTURES  (image-free — work before AI art lands)
+   ============================================================ */
+
+/* Fine film grain — apply to any section; needs position:relative */
+.tex-grain { position: relative; isolation: isolate; }
+.tex-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Blueprint grid — light lines for dark surfaces */
+.tex-blueprint {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+/* Blueprint grid — dark lines for light surfaces */
+.tex-blueprint-dark {
+  background-image:
+    linear-gradient(to right, rgba(19,16,16,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19,16,16,0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+.tex-fade-top { -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, #000 35%, transparent 100%); mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, #000 35%, transparent 100%); }
+
+/* Hazard stripe — thin red/charcoal diagonal accent bar */
+.tex-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-brand) 0,
+    var(--color-brand) 12px,
+    var(--color-coal) 12px,
+    var(--color-coal) 24px
+  );
+}
+.tex-hazard-ink {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-coal) 0,
+    var(--color-coal) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* ============================================================
+   STRUCTURAL DETAILS — corner ticks / rules / clips
+   ============================================================ */
+
+/* Blueprint registration ticks on a boxed element */
+.ticks { position: relative; }
+.ticks::before,
+.ticks::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--color-brand);
+  border-style: solid;
+}
+.ticks::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.ticks::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Thick top rule used to "stamp" a section heading */
+.rule-top { border-top: 3px solid var(--color-coal); }
+.rule-brand { border-top: 3px solid var(--color-brand); }
+
+/* Clipped corner — cut a notch like a steel plate */
+.clip-notch { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.5rem;
+  border: 2px solid transparent;
+  transition: transform 0.18s var(--ease-out), background-color 0.18s var(--ease-out), color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
+  line-height: 1;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-red { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+.btn-red:hover { background: var(--color-brand-deep); border-color: var(--color-brand-deep); }
+
+.btn-ink { background: var(--color-coal); color: var(--color-bone); border-color: var(--color-coal); }
+.btn-ink:hover { background: var(--color-brand); border-color: var(--color-brand); }
+
+.btn-bone { background: var(--color-bone); color: var(--color-coal); border-color: var(--color-bone); }
+.btn-bone:hover { background: #fff; }
+
+.btn-outline { background: transparent; color: var(--color-coal); border-color: var(--color-coal); }
+.btn-outline:hover { background: var(--color-coal); color: var(--color-bone); }
+
+.btn-outline-bone { background: transparent; color: var(--color-bone); border-color: rgba(244,241,234,0.4); }
+.btn-outline-bone:hover { background: var(--color-bone); color: var(--color-coal); border-color: var(--color-bone); }
+
+/* ============================================================
+   LINKS / MISC
+   ============================================================ */
+
+.link-underline {
+  background-image: linear-gradient(var(--color-brand), var(--color-brand));
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s var(--ease-out);
+}
+.link-underline:hover { background-size: 100% 2px; }
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+@media (scripting: none) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   MARQUEE (trust strip)
+   ============================================================ */
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 34s linear infinite; }
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+@media (prefers-reduced-motion: reduce) { .animate-marquee { animation: none; } }
+
+/* Subtle floating for accent chips */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* ============================================================
+   LEGACY ALIASES (keep pre-redesign pages from breaking mid-build)
+   ============================================================ */
+/* bg-ink / bg-brand are owned by Tailwind color utilities now — use .surface-ink / .surface-brand for gradient surfaces. */
+.shadow-elevated { box-shadow: var(--shadow-block); }
+.glass { background-color: rgba(244,241,234,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(244,241,234,0.18); }
+.gradient-text { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bg-grid-light { background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 52px 52px; }
+.bg-grid-dark { background-image: linear-gradient(to right, rgba(0,0,0,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.045) 1px, transparent 1px); background-size: 52px 52px; }
+.red-underline::after { content: ''; display: block; width: 60px; height: 3px; background: var(--color-brand); margin-top: 12px; }
+.red-underline-center::after { content: ''; display: block; width: 60px; height: 3px; background: var(--color-brand); margin: 12px auto 0; }
