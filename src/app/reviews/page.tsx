@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import FeaturableReviews from "@/components/FeaturableReviews";
+import ReviewCards from "@/components/ReviewCards";
+import { getReviews } from "@/lib/reviews-data";
 import { PHONE, EMAIL, SITE_URL, BUSINESS_NAME, LICENSE } from "@/lib/seo-data";
 import { ArrowRight, Phone, Star, Check, ShieldCheck } from "@/components/icons";
 
@@ -36,7 +37,9 @@ const trustPoints = [
   { t: "Clean & On-Time", d: "We show up when we say we will and leave your property spotless." },
 ];
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const { reviews } = await getReviews();
+
   return (
     <div className="bg-concrete">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -88,9 +91,7 @@ export default function ReviewsPage() {
               What homeowners say
             </h2>
           </Reveal>
-          <Reveal delay={80}>
-            <FeaturableReviews />
-          </Reveal>
+          <ReviewCards reviews={reviews} />
         </div>
       </section>
 

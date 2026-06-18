@@ -3,10 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import FAQ from "@/components/FAQ";
-import FeaturableReviews from "@/components/FeaturableReviews";
+import ReviewCards from "@/components/ReviewCards";
+import USAMap from "@/components/USAMap";
 import HeroServiceSlider from "@/components/HeroServiceSlider";
 import { PHONE } from "@/lib/seo-data";
-import { ArrowRight, Phone, Star, Check, ShieldCheck, serviceIcons } from "@/components/icons";
+import { getReviews } from "@/lib/reviews-data";
+import { ArrowRight, ArrowUpRight, Phone, Star, Check, ShieldCheck, Google, serviceIcons } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "A&E Exteriors LLC | Expert Exterior Contractor in New Jersey",
@@ -15,26 +17,23 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://aeexteriorsnj.com" },
 };
 
-const steps = [
-  { n: "01", t: "Call or Request", d: "Pick up the phone or send the form. We respond fast — usually the same day." },
-  { n: "02", t: "Free On-Site Estimate", d: "We walk the project with you and hand you a clear, written, itemized quote." },
-  { n: "03", t: "Schedule the Crew", d: "Pick a date that works. We show up on time with materials and crew ready." },
-  { n: "04", t: "We Build It Right", d: "Quality work, clean job site — we don't leave until you're satisfied." },
-];
-
 const work = [
-  { src: "/steps/steps-1.webp", label: "Masonry Steps", area: "Passaic County" },
-  { src: "/roofing/IMG_1985.webp", label: "Roof Replacement", area: "Bergen County" },
-  { src: "/cambridge-pavers/pavers-1.webp", label: "Paver Patio", area: "Essex County" },
-  { src: "/chimney/chimney-1.webp", label: "Chimney Rebuild", area: "Morris County" },
-  { src: "/foundation-waterproofing/fw-1.webp", label: "Foundation Repair", area: "Passaic County" },
-  { src: "/siding/siding-1.webp", label: "Siding Install", area: "Bergen County" },
+  { src: "/steps/steps-1.webp", label: "Masonry Steps", area: "Passaic County", cat: "Masonry", span: "lg:col-span-7 lg:row-span-2" },
+  { src: "/roofing/IMG_1985.webp", label: "Roof Replacement", area: "Bergen County", cat: "Roofing", span: "lg:col-span-5" },
+  { src: "/cambridge-pavers/pavers-1.webp", label: "Paver Patio", area: "Essex County", cat: "Hardscape", span: "lg:col-span-5" },
+  { src: "/chimney/chimney-1.webp", label: "Chimney Rebuild", area: "Morris County", cat: "Chimneys", span: "lg:col-span-4" },
+  { src: "/foundation-waterproofing/fw-1.webp", label: "Foundation Repair", area: "Passaic County", cat: "Foundation", span: "lg:col-span-4" },
+  { src: "/siding/siding-1.webp", label: "Siding Install", area: "Bergen County", cat: "Siding", span: "lg:col-span-4" },
 ];
 
-const counties = [
-  { name: "Passaic", primary: true }, { name: "Bergen", primary: true }, { name: "Essex", primary: true }, { name: "Morris", primary: true },
-  { name: "Hudson" }, { name: "Union" }, { name: "Middlesex" }, { name: "Somerset" }, { name: "Monmouth" }, { name: "Ocean" },
-  { name: "Mercer" }, { name: "Sussex" }, { name: "Warren" }, { name: "Hunterdon" }, { name: "Burlington" }, { name: "Camden" },
+const services = [
+  { slug: "masonry", name: "Masonry", tag: "Steps, pavers, stucco, brick & stone — built to last generations." },
+  { slug: "roofing", name: "Roofing", tag: "Full replacements & repairs. Protection from the top down." },
+  { slug: "siding", name: "Siding", tag: "Beautify and protect every wall of your home." },
+  { slug: "gutters", name: "Gutters", tag: "Seamless systems that divert water and protect the base." },
+  { slug: "chimneys", name: "Chimneys", tag: "Rebuilds, repointing & caps — safe, sealed and sound." },
+  { slug: "foundation", name: "Foundation", tag: "Stabilize and repair your home's critical structure." },
+  { slug: "waterproofing", name: "Waterproofing", tag: "Interior & exterior systems built for NJ freeze-thaw." },
 ];
 
 const faqs = [
@@ -45,7 +44,9 @@ const faqs = [
   { q: "How soon can you start my project?", a: "We respond fast — usually the same day — and schedule promptly. For emergencies like active leaks or storm damage, reach out right away and we'll prioritize you." },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { rating, count, reviewUrl, reviews } = await getReviews();
+
   return (
     <div className="bg-concrete">
 
@@ -120,10 +121,10 @@ export default function HomePage() {
         {/* faint blueprint wash + soft top fade keep the canvas premium, never busy */}
         <div className="pointer-events-none absolute inset-0 z-0 tex-blueprint-dark tex-fade-top opacity-[0.45]" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24 lg:py-36">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
 
           {/* ── Editorial header: oversized headline, generous whitespace ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-16 lg:mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-12 lg:mb-16">
             <Reveal className="lg:col-span-7">
               <span className="kicker mb-7">Who We Are</span>
               <h2 className="font-display font-bold text-coal text-[2.6rem] sm:text-6xl lg:text-7xl leading-[1.02] tracking-tight">
@@ -148,7 +149,7 @@ export default function HomePage() {
           </div>
 
           {/* ── One beautiful large image in a refined rounded frame ── */}
-          <Reveal delay={80} className="mb-16 lg:mb-24">
+          <Reveal delay={80} className="mb-12 lg:mb-16">
             <figure className="relative">
               <div className="group relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9] rounded-3xl overflow-hidden shadow-block ring-1 ring-line">
                 <Image
@@ -178,7 +179,7 @@ export default function HomePage() {
           </Reveal>
 
           {/* ── Owner quote (italic) + signature, beside trust pillars ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-16 lg:mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-12 lg:mb-16">
             <Reveal className="lg:col-span-6">
               <span className="block h-px w-16 bg-brand mb-7" />
               <blockquote className="font-display text-coal text-2xl sm:text-3xl lg:text-[2.1rem] leading-snug italic">
@@ -242,12 +243,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════ SERVICES (bento) ════════ */}
+      {/* ════════ SERVICES (index register) ════════ */}
       <section id="services" className="scroll-mt-24 bg-concrete relative overflow-hidden">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
 
-          {/* ── Minimal header ── */}
-          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-14">
+          {/* ── Header ── */}
+          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-16">
             <div className="max-w-2xl">
               <span className="kicker mb-5">What We Do</span>
               <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.04] tracking-tight">
@@ -263,198 +264,128 @@ export default function HomePage() {
             </Link>
           </Reveal>
 
-          {/* ── Bento grid: 1-col stack (mobile) / 2-col (sm) / asymmetric 4-col (lg) ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 auto-rows-fr">
+          {/* ── Service register: numbered editorial cards + one red anchor ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-line rounded-3xl overflow-hidden border border-line shadow-soft">
 
-            {/* MASONRY — wide hero tile */}
-            <Reveal delay={0} className="sm:col-span-2 lg:col-span-2">
-              <Link href="/services/masonry" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 lg:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <div className="flex items-start justify-between gap-6">
-                  <span className="relative inline-flex h-20 w-20 lg:h-24 lg:w-24 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line shrink-0">
-                    {(() => { const Icon = serviceIcons["masonry"]; return Icon ? <Icon className="w-full h-full scale-[1.35]" /> : null; })()}
-                  </span>
-                  <span className="spec text-stone pt-1">01 / 07</span>
-                </div>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-2xl lg:text-3xl">Masonry</h3>
-                  <p className="text-ash text-sm lg:text-base leading-relaxed mt-2 max-w-md">
-                    Built to last for generations — steps, pavers, stucco, brick &amp; stone.
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-2 font-display font-semibold text-sm text-brand">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
+            {services.map((s, i) => {
+              const Icon = serviceIcons[s.slug];
+              return (
+                <Reveal key={s.slug} delay={i * 70}>
+                  <Link
+                    href={`/services/${s.slug}`}
+                    className="group relative flex h-full min-h-[15rem] flex-col bg-bone p-7 lg:p-8 transition-colors duration-300 hover:bg-concrete"
+                  >
+                    {/* red wipe that grows up from the baseline on hover */}
+                    <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-0 bg-brand/[0.04] transition-all duration-500 ease-out group-hover:h-full" />
 
-            {/* ROOFING */}
-            <Reveal delay={80} className="lg:col-span-1">
-              <Link href="/services/roofing" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <span className="relative inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line">
-                  {(() => { const Icon = serviceIcons["roofing"]; return Icon ? <Icon className="w-full h-full scale-[1.3]" /> : null; })()}
-                </span>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-xl">Roofing</h3>
-                  <p className="text-ash text-sm leading-relaxed mt-1.5">Protection from the top down.</p>
-                </div>
-                <ArrowRight className="absolute right-6 bottom-6 w-4 h-4 text-stone transition-all duration-300 group-hover:text-brand group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
+                    {/* index + hairline */}
+                    <div className="relative flex items-center gap-3 mb-7">
+                      <span className="spec text-stone tabular-nums transition-colors group-hover:text-brand">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="h-px flex-1 bg-line transition-colors group-hover:bg-brand/30" />
+                    </div>
 
-            {/* RED ANCHOR — value prop + CTA, tall on lg; falls to end on mobile */}
-            <Reveal delay={160} className="order-last sm:order-none sm:col-span-2 lg:col-span-1 lg:row-span-3">
-              <div className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl surface-brand shadow-block p-8">
-                <div aria-hidden="true" className="pointer-events-none absolute -top-20 -right-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+                    {/* icon */}
+                    <span className="relative inline-flex h-24 w-24 lg:h-28 lg:w-28 items-center justify-center mb-auto">
+                      {Icon ? <Icon className="w-full h-full transition-transform duration-500 ease-out group-hover:scale-110" /> : null}
+                    </span>
+
+                    {/* title + tag */}
+                    <div className="relative mt-7">
+                      <h3 className="font-display font-bold text-coal text-xl lg:text-2xl tracking-tight">{s.name}</h3>
+                      <p className="text-ash text-sm leading-relaxed mt-2">{s.tag}</p>
+                    </div>
+
+                    {/* learn-more affordance */}
+                    <span className="relative mt-5 inline-flex items-center gap-1.5 font-display font-semibold text-sm text-coal/0 group-hover:text-brand transition-all duration-300">
+                      Learn more
+                      <ArrowRight className="w-4 h-4 -translate-x-1 transition-transform duration-300 group-hover:translate-x-0" />
+                    </span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+
+            {/* RED ANCHOR — fills the 8th cell, completing the 4×2 register */}
+            <Reveal delay={services.length * 70}>
+              <div className="group relative flex h-full min-h-[15rem] flex-col justify-between overflow-hidden surface-brand p-7 lg:p-8">
+                <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
                 <div className="relative">
                   <span className="spec text-white/70">One Crew · Every Layer</span>
-                  <p className="font-display font-bold text-white text-2xl lg:text-[1.8rem] leading-[1.12] mt-4">
-                    Your whole exterior, handled by one accountable team.
-                  </p>
-                  <p className="text-white/80 text-sm leading-relaxed mt-4 max-w-xs">
-                    Owner-supervised, NJ licensed &amp; insured. No subcontractors, no hand-offs — just honest work, done right.
+                  <p className="font-display font-bold text-white text-xl lg:text-2xl leading-[1.15] mt-4 tracking-tight">
+                    Your whole exterior, one accountable team.
                   </p>
                 </div>
-                <div className="relative mt-8 flex flex-col gap-3">
-                  <Link href="/contact" className="btn btn-bone justify-center">
+                <div className="relative mt-6">
+                  <Link href="/contact" className="btn btn-bone w-full justify-center">
                     Get Free Estimate
                     <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <span className="spec text-white/60 text-center">NJ Lic #13VH13920700</span>
+                  <span className="spec text-white/60 block text-center mt-3">NJ Lic #13VH13920700</span>
                 </div>
               </div>
             </Reveal>
 
-            {/* SIDING */}
-            <Reveal delay={120} className="lg:col-span-1">
-              <Link href="/services/siding" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <span className="relative inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line">
-                  {(() => { const Icon = serviceIcons["siding"]; return Icon ? <Icon className="w-full h-full scale-[1.3]" /> : null; })()}
-                </span>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-xl">Siding</h3>
-                  <p className="text-ash text-sm leading-relaxed mt-1.5">Beautify &amp; protect.</p>
-                </div>
-                <ArrowRight className="absolute right-6 bottom-6 w-4 h-4 text-stone transition-all duration-300 group-hover:text-brand group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-
-            {/* GUTTERS */}
-            <Reveal delay={200} className="lg:col-span-1">
-              <Link href="/services/gutters" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <span className="relative inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line">
-                  {(() => { const Icon = serviceIcons["gutters"]; return Icon ? <Icon className="w-full h-full scale-[1.3]" /> : null; })()}
-                </span>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-xl">Gutters</h3>
-                  <p className="text-ash text-sm leading-relaxed mt-1.5">Divert water, protect the base.</p>
-                </div>
-                <ArrowRight className="absolute right-6 bottom-6 w-4 h-4 text-stone transition-all duration-300 group-hover:text-brand group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-
-            {/* CHIMNEYS — dark accent tile */}
-            <Reveal delay={240} className="lg:col-span-1">
-              <Link href="/services/chimneys" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl surface-ink shadow-block p-7 transition-all duration-300 hover:-translate-y-1">
-                <span className="relative inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-bone ring-1 ring-black/5">
-                  {(() => { const Icon = serviceIcons["chimneys"]; return Icon ? <Icon className="w-full h-full scale-[1.3]" /> : null; })()}
-                </span>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-bone text-xl">Chimneys</h3>
-                  <p className="text-stone text-sm leading-relaxed mt-1.5">Safe, sealed &amp; sound.</p>
-                </div>
-                <ArrowRight className="absolute right-6 bottom-6 w-4 h-4 text-stone transition-all duration-300 group-hover:text-brand group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-
-            {/* FOUNDATION */}
-            <Reveal delay={280} className="lg:col-span-1">
-              <Link href="/services/foundation" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <span className="relative inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line">
-                  {(() => { const Icon = serviceIcons["foundation"]; return Icon ? <Icon className="w-full h-full scale-[1.3]" /> : null; })()}
-                </span>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-xl">Foundation</h3>
-                  <p className="text-ash text-sm leading-relaxed mt-1.5">Your home&apos;s critical structure.</p>
-                </div>
-                <ArrowRight className="absolute right-6 bottom-6 w-4 h-4 text-stone transition-all duration-300 group-hover:text-brand group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-
-            {/* WATERPROOFING — wide closer */}
-            <Reveal delay={320} className="sm:col-span-2 lg:col-span-2">
-              <Link href="/services/waterproofing" className="group relative flex h-full min-h-[14rem] flex-col justify-between overflow-hidden rounded-3xl bg-bone border border-line shadow-soft p-7 lg:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-block hover:border-stone/40">
-                <div className="flex items-start justify-between gap-6">
-                  <span className="relative inline-flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-concrete ring-1 ring-line shrink-0">
-                    {(() => { const Icon = serviceIcons["waterproofing"]; return Icon ? <Icon className="w-full h-full scale-[1.35]" /> : null; })()}
-                  </span>
-                  <span className="spec text-stone pt-1">07 / 07</span>
-                </div>
-                <div className="mt-6">
-                  <h3 className="font-display font-bold text-coal text-2xl">Waterproofing</h3>
-                  <p className="text-ash text-sm lg:text-base leading-relaxed mt-2 max-w-md">
-                    Keep water out for good — interior &amp; exterior systems built for NJ freeze-thaw.
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-2 font-display font-semibold text-sm text-brand">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ PROCESS ════════ */}
-      <section className="bg-concrete">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="max-w-2xl mb-14">
-            <span className="kicker mb-5">How It Works</span>
-            <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-              From call to completion
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {steps.map((s, i) => (
-              <Reveal key={s.n} delay={i * 90}>
-                <div className="group relative h-full bg-bone border border-line rounded-2xl shadow-soft hover:shadow-block hover:-translate-y-1 transition-all duration-300 p-8">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand text-white font-display font-bold text-lg mb-6">{s.n}</div>
-                  <h3 className="font-display font-bold text-coal text-xl mb-3">{s.t}</h3>
-                  <p className="text-ash text-sm leading-relaxed">{s.d}</p>
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
 
       {/* ════════ SELECTED WORK ════════ */}
-      <section className="bg-cement">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-            <div>
+      <section className="bg-concrete relative overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-0 pb-16 lg:pb-24">
+
+          {/* ── Header ── */}
+          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12">
+            <div className="max-w-2xl">
               <span className="kicker mb-5">Our Work</span>
-              <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em] mb-3">
-                Real projects. Real results.
+              <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight mb-4">
+                Real projects. <span className="text-brand">Real results.</span>
               </h2>
-              <p className="text-ash text-base">Recent exterior work across New Jersey.</p>
+              <p className="text-ash text-base lg:text-lg leading-relaxed">Recent exterior work across New Jersey — every job by our own crew.</p>
             </div>
-            <Link href="/gallery" className="btn btn-ink flex-shrink-0">
-              Full Gallery
-              <ArrowRight className="w-4 h-4" />
+            <Link href="/gallery" className="group inline-flex items-center gap-2 font-display font-semibold text-coal hover:text-brand transition-colors flex-shrink-0 pb-1">
+              <span className="border-b-2 border-brand/30 group-hover:border-brand pb-1 transition-colors">View Full Gallery</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Reveal>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+
+          {/* ── Editorial mosaic ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 auto-rows-[13rem] lg:auto-rows-[12.5rem] gap-3 lg:gap-4">
             {work.map((w, i) => (
-              <Reveal key={w.src} delay={(i % 3) * 80}>
-                <Link href="/gallery" className={`group relative block overflow-hidden ticks ${i === 0 ? "lg:col-span-2 aspect-[2/1.2]" : "aspect-[4/3]"}`}>
-                  <Image src={w.src} alt={`${w.label} project by A&E Exteriors LLC in ${w.area}`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 50vw, 33vw" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
+              <Reveal key={w.src} variant="zoom" delay={i * 110} className={`${w.span} sm:[&>*]:h-full`}>
+                <Link
+                  href="/gallery"
+                  className="group relative flex h-full min-h-[13rem] overflow-hidden rounded-3xl ring-1 ring-coal/10 shadow-soft transition-shadow duration-500 hover:shadow-block"
+                >
+                  <Image
+                    src={w.src}
+                    alt={`${w.label} project by A&E Exteriors LLC in ${w.area}`}
+                    fill
+                    className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                  />
+                  {/* legibility gradient — deepens on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/25 to-transparent transition-opacity duration-500 group-hover:from-ink/95" />
+
+                  {/* category chip — top left */}
+                  <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-bone/15 backdrop-blur-sm px-3 py-1 spec text-bone ring-1 ring-bone/25">
+                    {w.cat}
+                  </span>
+
+                  {/* arrow chip — slides in on hover */}
+                  <span className="absolute right-4 top-4 inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand text-white opacity-0 -translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    <ArrowUpRight className="w-4 h-4" />
+                  </span>
+
+                  {/* caption */}
+                  <div className="relative mt-auto p-5 lg:p-6">
                     <span className="spec text-brand">{w.area}</span>
-                    <p className="font-display font-semibold uppercase text-bone text-lg lg:text-xl tracking-[0.01em] mt-1">{w.label}</p>
+                    <p className="font-display font-bold text-bone text-xl lg:text-2xl tracking-tight mt-1.5">{w.label}</p>
+                    <span className="mt-2 inline-flex items-center gap-1.5 text-bone/0 group-hover:text-bone/85 text-sm font-semibold transition-colors duration-300">
+                      View project
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
                   </div>
                 </Link>
               </Reveal>
@@ -465,85 +396,59 @@ export default function HomePage() {
 
       {/* ════════ REVIEWS ════════ */}
       <section className="bg-concrete relative overflow-hidden">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-            <div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-0 pb-16 lg:pb-24">
+          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12">
+            <div className="max-w-2xl">
               <span className="kicker mb-5">Reviews</span>
-              <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
-                Trusted by your neighbors
+              <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+                Trusted by your <span className="text-brand">neighbors</span>
               </h2>
             </div>
-            <div className="flex items-center gap-3 bg-bone border border-line rounded-full shadow-soft px-5 py-3">
-              <div className="flex items-center gap-1 text-brand">
-                {Array(5).fill(0).map((_, i) => <Star key={i} className="w-5 h-5" />)}
+            {/* Google rating badge — on-brand */}
+            <div className="inline-flex items-center gap-4 bg-bone border border-line rounded-2xl shadow-soft px-5 py-4 flex-shrink-0">
+              <Google className="w-8 h-8" />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="font-display font-bold text-coal text-2xl leading-none">{rating}</span>
+                  <span className="flex items-center gap-0.5 text-brand">
+                    {Array(5).fill(0).map((_, i) => <Star key={i} className="w-4 h-4" />)}
+                  </span>
+                </div>
+                <span className="spec text-ash mt-1">Based on {count} Google reviews</span>
               </div>
-              <span className="font-display font-bold text-coal text-2xl">5.0</span>
-              <span className="spec text-ash">Google</span>
             </div>
           </Reveal>
-          <Reveal delay={100}>
-            <FeaturableReviews />
-          </Reveal>
-          <div className="mt-10">
+
+          <ReviewCards reviews={reviews} />
+
+          <Reveal delay={160} className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
             <Link href="/reviews" className="btn btn-red">
               Read All Reviews
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ SERVICE AREAS ════════ */}
-      <section className="bg-concrete">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <Reveal>
-              <span className="kicker mb-5">Service Areas</span>
-              <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em] mb-5">
-                Serving all of <span className="text-brand">New Jersey</span>
-              </h2>
-              <p className="text-ash text-base leading-relaxed mb-8 max-w-lg">
-                Based in North Haledon and covering all 21 counties — from Passaic and Bergen to the Jersey Shore.
-                Wherever you are in NJ, A&amp;E Exteriors is close by.
-              </p>
-              <Link href="/areas" className="btn btn-ink">
-                All Service Areas
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Reveal>
-            <Reveal delay={100} className="flex flex-wrap gap-2">
-              {counties.map((c) => (
-                <Link
-                  key={c.name}
-                  href="/areas"
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-display uppercase tracking-[0.02em] transition-all ${
-                    c.primary
-                      ? "bg-brand text-white"
-                      : "bg-bone text-coal/75 border border-line hover:border-brand hover:text-brand"
-                  }`}
-                >
-                  <span className={`w-1.5 h-1.5 ${c.primary ? "bg-white" : "bg-brand"}`} />
-                  {c.name}
-                </Link>
-              ))}
-              <span className="inline-flex items-center px-4 py-2.5 spec text-ash">+ all 21 counties</span>
-            </Reveal>
-          </div>
+            <a href={reviewUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+              <Google className="w-4 h-4" />
+              Leave a Review
+            </a>
+          </Reveal>
         </div>
       </section>
 
       {/* ════════ FAQ ════════ */}
-      <section className="bg-bone">
-        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="mb-12">
-            <span className="kicker mb-5">FAQ</span>
-            <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-              Questions homeowners ask
+      <section className="bg-concrete">
+        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 pt-0 pb-16 lg:pb-24">
+          <Reveal className="mb-10 lg:mb-12 text-center">
+            <span className="kicker kicker-center mb-5">FAQ</span>
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              Questions homeowners <span className="text-brand">ask</span>
             </h2>
+            <p className="text-ash text-base lg:text-lg leading-relaxed mt-5 max-w-xl mx-auto">
+              Straight answers about licensing, estimates, scheduling and how we work.
+            </p>
           </Reveal>
           <Reveal delay={100}>
             <FAQ items={faqs} />
-            <p className="text-ash text-sm mt-10">
+            <p className="text-ash text-sm mt-10 text-center">
               Still have questions?{" "}
               <a href="tel:7329560411" className="text-brand font-semibold link-underline">Call {PHONE}</a> — we&apos;re happy to help.
             </p>
@@ -551,41 +456,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════ FINAL CTA ════════ */}
-      <section className="relative surface-brand overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <Image src="/roofing/IMG_1990.webp" alt="" fill className="object-cover" sizes="100vw" />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-brand/80 via-brand-deep/90 to-ink/95" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 py-24 lg:py-32 text-center">
-          <Reveal>
-            <span className="inline-flex items-center gap-2.5 mb-6 justify-center">
-              <span className="h-px w-8 bg-white/60" />
-              <span className="spec text-white">Free Estimates · No Obligation</span>
-              <span className="h-px w-8 bg-white/60" />
-            </span>
-            <h2 className="font-display font-bold uppercase text-white text-4xl sm:text-5xl lg:text-7xl leading-[0.92] tracking-[-0.015em] mb-6">
-              Ready to start
-              <br />
-              your project?
+      {/* ════════ USA MAP — home base: New Jersey ════════ */}
+      <section className="relative surface-ink overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 tex-blueprint opacity-50 tex-fade-top" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <Reveal className="text-center mb-10 lg:mb-12">
+            <span className="kicker kicker-center mb-5">Where We Work</span>
+            <h2 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              Proudly based in <span className="text-brand">New Jersey</span>
             </h2>
-            <p className="text-white/85 text-base lg:text-lg mb-10 max-w-xl mx-auto">
-              NJ licensed contractor serving all 21 counties. Let&apos;s get yours started.
+            <p className="text-bone/65 text-base lg:text-lg leading-relaxed mt-5 max-w-xl mx-auto">
+              A&amp;E Exteriors is a licensed New Jersey contractor — serving all 21 counties, from the Hudson to the Shore.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href="/contact" className="btn btn-bone w-full sm:w-auto justify-center">
-                Get Free Estimate
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a href="tel:7329560411" className="btn btn-ink w-full sm:w-auto justify-center">
-                <Phone className="w-4 h-4" />
-                Call {PHONE}
-              </a>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div className="relative mx-auto max-w-4xl">
+              <USAMap className="w-full h-auto text-steel" />
+              {/* NJ marker label — anchored just above-right of NJ (~87% x, ~37% y) */}
+              <span className="absolute right-[6%] top-[20%] hidden sm:flex flex-col items-center">
+                <span className="font-display font-bold text-bone text-xs sm:text-sm whitespace-nowrap rounded-full bg-coal/85 ring-1 ring-brand/40 backdrop-blur px-3 py-1.5 shadow-block">
+                  <span className="text-brand">●</span> New Jersey
+                </span>
+                {/* connector line down to NJ */}
+                <span aria-hidden="true" className="w-px h-8 sm:h-10 bg-brand/50" />
+              </span>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-8 text-white/80">
-              <ShieldCheck className="w-4 h-4" />
-              <span className="spec text-white/70">NJ Lic #13VH13920700 · Licensed &amp; Insured</span>
-            </div>
+          </Reveal>
+
+          <Reveal delay={200} className="flex items-center justify-center gap-2 mt-10 text-bone/70">
+            <ShieldCheck className="w-4 h-4 text-brand" />
+            <span className="spec text-bone/60">NJ Lic #13VH13920700 · Licensed &amp; Insured · All 21 Counties</span>
           </Reveal>
         </div>
       </section>

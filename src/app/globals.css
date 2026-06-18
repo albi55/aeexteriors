@@ -280,8 +280,15 @@ h1.font-display, h2.font-display, h3.font-display,
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* Zoom variant — gallery tiles rise + scale in for a richer scroll entrance */
+.reveal-zoom {
+  transform: translateY(42px) scale(0.94);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal-zoom.is-visible { transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal, .reveal-zoom { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
 }
 @media (scripting: none) {

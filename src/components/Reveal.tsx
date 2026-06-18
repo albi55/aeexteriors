@@ -7,6 +7,8 @@ type RevealProps = {
   className?: string;
   /** Delay the transition (ms) to stagger sibling reveals. */
   delay?: number;
+  /** Entrance style. "lift" (default) fades + slides up; "zoom" fades + scales/lifts (used for gallery tiles). */
+  variant?: "lift" | "zoom";
 };
 
 /**
@@ -14,7 +16,7 @@ type RevealProps = {
  * viewport. Falls back to fully visible when JS is disabled or the user
  * prefers reduced motion (handled in globals.css).
  */
-export default function Reveal({ children, className = "", delay = 0 }: RevealProps) {
+export default function Reveal({ children, className = "", delay = 0, variant = "lift" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -40,7 +42,7 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
     <div
       ref={ref}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal ${variant === "zoom" ? "reveal-zoom" : ""} ${visible ? "is-visible" : ""} ${className}`}
     >
       {children}
     </div>
