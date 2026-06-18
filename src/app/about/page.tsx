@@ -4,7 +4,7 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import CountUp from "@/components/CountUp";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
-import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, MapPin, Mail } from "@/components/icons";
+import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, MapPin } from "@/components/icons";
 import { PHONE } from "@/lib/seo-data";
 
 export const metadata: Metadata = {
@@ -30,14 +30,6 @@ const serviceAreas = [
   { county: "Morris County", cities: "Morristown, Parsippany, Rockaway, Dover, Denville, Boonton, Randolph" },
 ];
 
-const credentials = [
-  { label: "NJ Home Improvement License", value: "#13VH13920700", icon: ShieldCheck },
-  { label: "Insurance Coverage", value: "General Liability & Workers' Comp", icon: Check },
-  { label: "Location", value: "871 Belmont Ave, North Haledon, NJ 07508", icon: MapPin },
-  { label: "Phone", value: "732-956-0411", icon: Phone },
-  { label: "Email", value: "aeexteriorsnj@gmail.com", icon: Mail },
-];
-
 const stats = [
   { to: 7, suffix: "+", label: "Exterior Services" },
   { to: 21, suffix: "", label: "NJ Counties Served" },
@@ -59,8 +51,8 @@ export default function AboutPage() {
       <section className="relative surface-ink overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/about/secondabout.png"
-            alt="A&E Exteriors LLC crew and branded trucks at a New Jersey home"
+            src="/showcase/home.png"
+            alt="Luxury New Jersey home with stone masonry, siding, and a new roof by A&E Exteriors LLC"
             fill
             priority
             className="object-cover animate-[heroPan_20s_ease-in-out_infinite_alternate]"
@@ -195,131 +187,124 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ════════ CREDENTIALS ════════ */}
-      <section className="bg-concrete">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="mb-12 max-w-2xl">
-            <span className="kicker mb-5">On The Record</span>
-            <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-              Verify before you hire
-            </h2>
-            <p className="text-ash text-base mt-4">
-              A good contractor has nothing to hide. Here&apos;s our license, our coverage, and every way to reach us — check us out before you commit to anything.
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {credentials.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <Reveal key={item.label} delay={(i % 3) * 80}>
-                  <div className="group h-full bg-bone rounded-[var(--radius)] border border-line p-6 transition-all duration-300 hover:border-brand/30 hover:shadow-soft hover:-translate-y-1">
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-concrete text-coal mb-5 transition-colors group-hover:bg-brand group-hover:text-white">
-                      <Icon className="w-6 h-6" />
-                    </span>
-                    <p className="spec text-stone">{item.label}</p>
-                    <p className="text-coal text-base font-semibold mt-1.5 break-words">{item.value}</p>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ════════ VALUES ════════ */}
-      <section className="surface-ink relative overflow-hidden">
-        <div className="absolute inset-0 tex-blueprint opacity-50 pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="mb-12 max-w-2xl">
-            <span className="kicker mb-5">Our Values</span>
-            <h2 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-              How we earn your trust
-            </h2>
-            <p className="text-bone/60 text-base mt-4">
-              These aren&apos;t slogans — they&apos;re the standards our crew is held to on every job site in New Jersey.
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {values.map((v, i) => (
-              <Reveal key={v.title} delay={(i % 3) * 80}>
-                <div className="group relative h-full bg-char/40 hover:bg-char/70 border border-steel rounded-[var(--radius)] p-8 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                  <div className="absolute top-0 left-0 h-1 w-0 bg-brand transition-all duration-500 group-hover:w-full" aria-hidden="true" />
-                  <div className="ghost-num text-bone/15 text-5xl mb-5 group-hover:text-brand/40 transition-colors">{String(i + 1).padStart(2, "0")}</div>
-                  <h3 className="font-display font-semibold uppercase text-bone text-xl tracking-[0.01em] mb-3">{v.title}</h3>
-                  <p className="text-bone/55 text-sm leading-relaxed">{v.desc}</p>
+      <section className="bg-bone">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
+            {/* Sticky header */}
+            <div>
+              <Reveal className="lg:sticky lg:top-32">
+                <span className="kicker mb-5">Our Values</span>
+                <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
+                  How we earn<br /><span className="text-brand">your trust</span>
+                </h2>
+                <p className="text-ash text-base mt-5 max-w-sm">
+                  These aren&apos;t slogans — they&apos;re the standards our crew is held to on every job site in New Jersey.
+                </p>
+                <div className="hidden lg:flex items-center gap-3 mt-8 pt-8 border-t border-line">
+                  <ShieldCheck className="w-6 h-6 text-brand flex-shrink-0" />
+                  <span className="spec text-stone">NJ Lic #13VH13920700 · Licensed &amp; Insured</span>
                 </div>
               </Reveal>
-            ))}
+            </div>
+
+            {/* Numbered principle rows */}
+            <div className="flex flex-col">
+              {values.map((v, i) => (
+                <Reveal key={v.title} delay={(i % 2) * 70}>
+                  <div className="group flex gap-5 sm:gap-7 py-7 border-t border-line first:border-t-0 lg:first:border-t transition-colors">
+                    <span className="font-display font-bold text-2xl tabular-nums text-line group-hover:text-brand transition-colors leading-none pt-0.5 w-9 flex-shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="flex-1">
+                      <h3 className="font-display font-bold text-coal text-xl tracking-tight mb-1.5 transition-colors group-hover:text-brand">{v.title}</h3>
+                      <p className="text-ash text-sm sm:text-[0.95rem] leading-relaxed">{v.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ════════ SERVICE AREAS ════════ */}
-      <section className="bg-cement">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="mb-12 max-w-2xl">
-            <span className="kicker mb-5">Where We Work</span>
-            <h2 className="font-display font-bold uppercase text-coal text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-              Proud to be your neighbor
-            </h2>
-            <p className="text-ash text-base mt-4">
-              Based in North Haledon and serving homeowners across all 21 New Jersey counties — with these towns at the heart of our work.
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="surface-ink relative overflow-hidden">
+        <div className="absolute inset-0 tex-blueprint opacity-50 tex-fade-top pointer-events-none" aria-hidden="true" />
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 lg:mb-14">
+            <Reveal className="max-w-2xl">
+              <span className="kicker mb-5">Where We Work</span>
+              <h2 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
+                Proud to be<br /><span className="text-brand">your neighbor</span>
+              </h2>
+              <p className="text-bone/60 text-base mt-5">
+                Based in North Haledon, serving homeowners across all 21 New Jersey counties — with these towns at the heart of our work.
+              </p>
+            </Reveal>
+            <Reveal delay={120} className="flex-shrink-0">
+              <Link href="/areas" className="group inline-flex items-center gap-2 font-display font-semibold text-bone hover:text-brand transition-colors">
+                <span className="border-b-2 border-brand/40 group-hover:border-brand pb-1 transition-colors">All Service Areas</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Reveal>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-steel rounded-[var(--radius)] overflow-hidden border border-steel">
             {serviceAreas.map((area, i) => (
               <Reveal key={area.county} delay={(i % 4) * 70}>
-                <div className="group h-full bg-bone rounded-[var(--radius)] border border-line p-7 transition-all duration-300 hover:border-brand/30 hover:shadow-soft hover:-translate-y-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <MapPin className="w-5 h-5 text-brand" />
-                    <h3 className="font-display font-semibold uppercase text-coal text-lg tracking-[0.01em] group-hover:text-brand transition-colors">{area.county}</h3>
-                  </div>
-                  <div className="w-8 h-0.5 bg-brand mb-4 transition-all duration-300 group-hover:w-14" />
-                  <p className="text-ash text-sm leading-relaxed">{area.cities}</p>
+                <div className="group relative h-full bg-coal hover:bg-char p-7 transition-colors duration-300 overflow-hidden">
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-0.5 w-0 bg-brand transition-all duration-500 group-hover:w-full" />
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-char/80 text-brand mb-5 transition-colors group-hover:bg-brand group-hover:text-white">
+                    <MapPin className="w-5 h-5" />
+                  </span>
+                  <h3 className="font-display font-bold text-bone text-lg tracking-tight transition-colors group-hover:text-brand">{area.county}</h3>
+                  <p className="text-bone/50 text-sm leading-relaxed mt-2">{area.cities}</p>
                 </div>
               </Reveal>
             ))}
           </div>
-          <Reveal className="mt-8">
-            <Link href="/areas" className="btn btn-ink">
-              All Service Areas
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Reveal>
         </div>
       </section>
 
       {/* ════════ CTA ════════ */}
-      <section className="relative surface-ink overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/about/about.png"
-            alt=""
-            fill
-            className="object-cover object-center opacity-30"
-            sizes="100vw"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/90 to-ink/70" />
-        <div className="absolute inset-0 tex-blueprint opacity-50 pointer-events-none" aria-hidden="true" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 py-24 lg:py-28 text-center">
-          <span className="kicker kicker-center mb-6">Free Estimate</span>
-          <h2 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em] mb-5">
-            Let&apos;s protect your home
-          </h2>
-          <p className="text-bone/65 text-base lg:text-lg mb-10 max-w-xl mx-auto">
-            Tell us what your home needs and we&apos;ll come take a look — free, with no obligation and no pressure. Just an honest assessment and a straight answer.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/contact" className="btn btn-red w-full sm:w-auto justify-center">
-              Get Free Estimate
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-            <a href="tel:7329560411" className="btn btn-outline-bone w-full sm:w-auto justify-center">
-              <Phone className="w-4 h-4" />
-              Call {PHONE}
-            </a>
-          </div>
+      <section className="bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <Reveal>
+            <div className="relative surface-brand overflow-hidden rounded-[var(--radius-lg)] shadow-block px-8 sm:px-12 lg:px-16 py-14 lg:py-20">
+              <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+              <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-16 h-72 w-72 rounded-full bg-ink/15 blur-3xl" />
+              <div className="relative grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 items-center">
+                <div>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 spec text-white mb-6">
+                    Free Estimate
+                  </span>
+                  <h2 className="font-display font-bold uppercase text-white text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
+                    Let&apos;s protect your home
+                  </h2>
+                  <p className="text-white/85 text-base lg:text-lg mt-5 max-w-lg">
+                    Tell us what your home needs and we&apos;ll come take a look — free, no obligation, no pressure. Just an honest assessment and a straight answer.
+                  </p>
+                </div>
+                <div className="lg:justify-self-end w-full lg:w-auto">
+                  <div className="flex flex-col gap-3 sm:max-w-xs lg:min-w-[18rem]">
+                    <Link href="/contact" className="btn btn-bone w-full justify-center">
+                      Get Free Estimate
+                      <ArrowUpRight className="w-4 h-4" />
+                    </Link>
+                    <a href="tel:7329560411" className="btn btn-outline-bone w-full justify-center">
+                      <Phone className="w-4 h-4" />
+                      Call {PHONE}
+                    </a>
+                    <div className="flex items-center justify-center gap-2 mt-2 text-white/70">
+                      <ShieldCheck className="w-4 h-4" />
+                      <span className="spec text-white/70">NJ Lic #13VH13920700</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
