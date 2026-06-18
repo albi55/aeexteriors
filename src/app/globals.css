@@ -27,11 +27,11 @@
   --color-concrete: #F4F4F6;   /* primary light background */
   --color-bone: #FFFFFF;       /* lightest surface — logo white */
 
-  /* ── Brand red (sampled from logo) ── */
-  --color-brand: #E10E0E;      /* primary — logo scarlet */
-  --color-brand-deep: #B40A0A; /* hover / pressed */
-  --color-ember: #FF2A2A;      /* bright red accent on dark */
-  --color-safety: #E10E0E;     /* alias → brand (no off-brand amber) */
+  /* ── Brand red (deep, matches the header banner) ── */
+  --color-brand: #B40A0A;      /* primary — deep red (header-banner tone) */
+  --color-brand-deep: #8E0808; /* hover / pressed — darker still */
+  --color-ember: #E10E0E;      /* brighter red accent on dark */
+  --color-safety: #B40A0A;     /* alias → brand (no off-brand amber) */
 }
 
 :root {
@@ -39,12 +39,12 @@
   --foreground: #0B0B0C;
 
   --gradient-ink: linear-gradient(155deg, #161618 0%, #0B0B0C 60%, #000000 100%);
-  --gradient-brand: linear-gradient(135deg, #E10E0E 0%, #B40A0A 100%);
+  --gradient-brand: linear-gradient(135deg, #B40A0A 0%, #8E0808 100%);
   --gradient-steel: linear-gradient(160deg, #1B1B1E 0%, #0B0B0C 100%);
 
   --shadow-soft: 0 4px 20px rgba(11, 11, 12, 0.06), 0 1px 3px rgba(11, 11, 12, 0.05);
   --shadow-block: 0 20px 50px -20px rgba(11, 11, 12, 0.25);
-  --shadow-hard: 0 12px 36px -12px rgba(225, 14, 14, 0.3);  /* soft red lift */
+  --shadow-hard: 0 12px 36px -12px rgba(180, 10, 10, 0.3);  /* soft red lift */
 
   --radius: 0.875rem;   /* default card / button radius */
   --radius-sm: 0.5rem;
@@ -240,8 +240,8 @@ h1.font-display, h2.font-display, h3.font-display,
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
 
-.btn-red { background: var(--color-brand); color: #fff; border-color: var(--color-brand); box-shadow: 0 10px 24px -10px rgba(225, 14, 14, 0.55); }
-.btn-red:hover { background: var(--color-brand-deep); border-color: var(--color-brand-deep); box-shadow: 0 16px 30px -12px rgba(225, 14, 14, 0.6); }
+.btn-red { background: var(--color-brand); color: #fff; border-color: var(--color-brand); box-shadow: 0 10px 24px -10px rgba(180, 10, 10, 0.55); }
+.btn-red:hover { background: var(--color-brand-deep); border-color: var(--color-brand-deep); box-shadow: 0 16px 30px -12px rgba(180, 10, 10, 0.6); }
 
 .btn-ink { background: var(--color-coal); color: #fff; border-color: var(--color-coal); }
 .btn-ink:hover { background: #000; border-color: #000; }
@@ -313,3 +313,22 @@ h1.font-display, h2.font-display, h3.font-display,
 /* Subtle floating for accent chips */
 @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* Slow ken-burns pan for hero background images */
+@keyframes heroPan {
+  from { transform: scale(1.05) translate3d(0, 0, 0); }
+  to   { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[heroPan_20s_ease-in-out_infinite_alternate\] { animation: none; }
+}
+
+/* Hide scrollbar on the horizontal jump nav (still scrollable) */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Fade + lift — used when the service detail panel swaps content */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}

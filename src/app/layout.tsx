@@ -155,7 +155,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="geo.placename" content="North Haledon" />
         <meta name="geo.position" content="40.9554;-74.1857" />
         <meta name="ICBM" content="40.9554, -74.1857" />
-        <meta name="theme-color" content="#E10E0E" />
+        <meta name="theme-color" content="#B40A0A" />
         <link rel="canonical" href="https://aeexteriorsnj.com" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />

@@ -220,7 +220,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={openEstimate}
-                className="group inline-flex items-center gap-2 rounded-full bg-brand hover:bg-brand-deep text-white font-display font-bold text-sm px-5 py-2.5 shadow-[0_10px_24px_-10px_rgba(225,14,14,0.55)] hover:shadow-[0_16px_30px_-12px_rgba(225,14,14,0.6)] hover:-translate-y-0.5 transition-all duration-200"
+                className="group inline-flex items-center gap-2 rounded-full bg-brand hover:bg-brand-deep text-white font-display font-bold text-sm px-5 py-2.5 shadow-[0_10px_24px_-10px_rgba(180,10,10,0.55)] hover:shadow-[0_16px_30px_-12px_rgba(180,10,10,0.6)] hover:-translate-y-0.5 transition-all duration-200"
               >
                 Free Estimate
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
