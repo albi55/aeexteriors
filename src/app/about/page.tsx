@@ -4,8 +4,9 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import CountUp from "@/components/CountUp";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
-import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, MapPin } from "@/components/icons";
+import { ArrowRight, Phone, Check, ShieldCheck, MapPin } from "@/components/icons";
 import { PHONE } from "@/lib/seo-data";
+import { NJ_COUNTIES, NJ_VIEWBOX } from "@/lib/nj-counties";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -228,83 +229,78 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ════════ SERVICE AREAS ════════ */}
+      {/* ════════ SERVICE AREAS — map split ════════ */}
       <section className="surface-ink relative overflow-hidden">
-        <div className="absolute inset-0 tex-blueprint opacity-50 tex-fade-top pointer-events-none" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 lg:mb-14">
-            <Reveal className="max-w-2xl">
-              <span className="kicker mb-5">Where We Work</span>
-              <h2 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-                Proud to be<br /><span className="text-brand">your neighbor</span>
-              </h2>
-              <p className="text-bone/60 text-base mt-5">
-                Based in North Haledon, serving homeowners across all 21 New Jersey counties — with these towns at the heart of our work.
-              </p>
-            </Reveal>
-            <Reveal delay={120} className="flex-shrink-0">
-              <Link href="/areas" className="group inline-flex items-center gap-2 font-display font-semibold text-bone hover:text-brand transition-colors">
-                <span className="border-b-2 border-brand/40 group-hover:border-brand pb-1 transition-colors">All Service Areas</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20 items-center">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-steel rounded-[var(--radius)] overflow-hidden border border-steel">
-            {serviceAreas.map((area, i) => (
-              <Reveal key={area.county} delay={(i % 4) * 70}>
-                <div className="group relative h-full bg-coal hover:bg-char p-7 transition-colors duration-300 overflow-hidden">
-                  <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-0.5 w-0 bg-brand transition-all duration-500 group-hover:w-full" />
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-char/80 text-brand mb-5 transition-colors group-hover:bg-brand group-hover:text-white">
-                    <MapPin className="w-5 h-5" />
+            {/* LEFT — stylized NJ map */}
+            <Reveal variant="zoom" className="order-2 lg:order-1">
+              <div className="relative mx-auto max-w-sm lg:max-w-none">
+                <svg
+                  viewBox={NJ_VIEWBOX}
+                  className="w-full h-auto drop-shadow-[0_24px_48px_rgba(180,10,10,0.18)]"
+                  role="img"
+                  aria-label="Map of New Jersey with A&E Exteriors' primary service counties highlighted"
+                  fill="none"
+                >
+                  {NJ_COUNTIES.map((c) => (
+                    <path
+                      key={c.name}
+                      d={c.d}
+                      className={c.primary ? "fill-brand" : "fill-char"}
+                      stroke="#0B0B0C"
+                      strokeWidth={1.2}
+                      strokeOpacity={0.8}
+                    />
+                  ))}
+                </svg>
+                {/* floating count badge */}
+                <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-0 surface-bone shadow-block rounded-[var(--radius)] px-5 py-4 flex items-center gap-3">
+                  <span className="font-display font-bold text-brand text-4xl leading-none tabular-nums">21</span>
+                  <span className="text-coal text-sm font-semibold leading-tight">
+                    NJ counties<span className="block text-ash font-normal">served statewide</span>
                   </span>
-                  <h3 className="font-display font-bold text-bone text-lg tracking-tight transition-colors group-hover:text-brand">{area.county}</h3>
-                  <p className="text-bone/50 text-sm leading-relaxed mt-2">{area.cities}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ CTA ════════ */}
-      <section className="bg-concrete">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal>
-            <div className="relative surface-brand overflow-hidden rounded-[var(--radius-lg)] shadow-block px-8 sm:px-12 lg:px-16 py-14 lg:py-20">
-              <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-              <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-16 h-72 w-72 rounded-full bg-ink/15 blur-3xl" />
-              <div className="relative grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 items-center">
-                <div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 spec text-white mb-6">
-                    Free Estimate
-                  </span>
-                  <h2 className="font-display font-bold uppercase text-white text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
-                    Let&apos;s protect your home
-                  </h2>
-                  <p className="text-white/85 text-base lg:text-lg mt-5 max-w-lg">
-                    Tell us what your home needs and we&apos;ll come take a look — free, no obligation, no pressure. Just an honest assessment and a straight answer.
-                  </p>
-                </div>
-                <div className="lg:justify-self-end w-full lg:w-auto">
-                  <div className="flex flex-col gap-3 sm:max-w-xs lg:min-w-[18rem]">
-                    <Link href="/contact" className="btn btn-bone w-full justify-center">
-                      Get Free Estimate
-                      <ArrowUpRight className="w-4 h-4" />
-                    </Link>
-                    <a href="tel:7329560411" className="btn btn-outline-bone w-full justify-center">
-                      <Phone className="w-4 h-4" />
-                      Call {PHONE}
-                    </a>
-                    <div className="flex items-center justify-center gap-2 mt-2 text-white/70">
-                      <ShieldCheck className="w-4 h-4" />
-                      <span className="spec text-white/70">NJ Lic #13VH13920700</span>
-                    </div>
-                  </div>
                 </div>
               </div>
+            </Reveal>
+
+            {/* RIGHT — copy + featured counties */}
+            <div className="order-1 lg:order-2">
+              <Reveal>
+                <span className="kicker mb-5">Where We Work</span>
+                <h2 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em]">
+                  Proud to be<br /><span className="text-brand">your neighbor</span>
+                </h2>
+                <p className="text-bone/60 text-base mt-5 max-w-lg">
+                  Based in North Haledon and serving homeowners across all 21 New Jersey counties — with these four at the heart of our work.
+                </p>
+              </Reveal>
+
+              <div className="mt-9 flex flex-col">
+                {serviceAreas.map((area, i) => (
+                  <Reveal key={area.county} delay={(i % 2) * 70}>
+                    <div className="group flex items-start gap-4 py-5 border-t border-t-[rgba(255,255,255,0.08)] transition-colors">
+                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-char text-brand flex-shrink-0 mt-0.5 transition-colors group-hover:bg-brand group-hover:text-white">
+                        <MapPin className="w-4 h-4" />
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="font-display font-bold text-bone text-lg tracking-tight transition-colors group-hover:text-brand">{area.county}</h3>
+                        <p className="text-bone/45 text-sm leading-relaxed mt-1">{area.cities}</p>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              <Reveal delay={120} className="mt-8">
+                <Link href="/areas" className="group inline-flex items-center gap-2 font-display font-semibold text-bone hover:text-brand transition-colors">
+                  <span className="border-b-2 border-brand/40 group-hover:border-brand pb-1 transition-colors">View All Service Areas</span>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Reveal>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 

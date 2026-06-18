@@ -422,10 +422,11 @@ export default async function HomePage() {
           <ReviewCards reviews={reviews} />
 
           <Reveal delay={160} className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
-            <Link href="/reviews" className="btn btn-red">
-              Read All Reviews
+            <a href={reviewUrl} target="_blank" rel="noopener noreferrer" className="btn btn-red">
+              <Google className="w-4 h-4" />
+              Read Our Google Reviews
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
             <a href={reviewUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
               <Google className="w-4 h-4" />
               Leave a Review

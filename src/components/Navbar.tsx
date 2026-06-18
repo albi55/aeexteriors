@@ -12,12 +12,12 @@ const nav = [
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
   { label: "Service Areas", href: "/areas" },
-  { label: "Reviews", href: "/reviews" },
   { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const mobileNav = [...nav, { label: "Financing", href: "/financing" }, { label: "Contact", href: "/contact" }];
+const mobileNav = [...nav, { label: "Financing", href: "/financing" }];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);

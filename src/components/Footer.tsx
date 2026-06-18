@@ -6,7 +6,6 @@ import { Phone, Mail, MapPin, Clock, Check, ArrowRight, Facebook, Instagram } fr
 const company = [
   { label: "About Us", href: "/about" },
   { label: "Project Gallery", href: "/gallery" },
-  { label: "Reviews", href: "/reviews" },
   { label: "Resources & FAQ", href: "/resources" },
   { label: "Financing", href: "/financing" },
   { label: "Contact", href: "/contact" },

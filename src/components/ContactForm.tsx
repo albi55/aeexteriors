@@ -6,7 +6,7 @@ import { ArrowRight, Check } from "@/components/icons";
 const services = ["Masonry", "Roofing", "Siding", "Gutters", "Chimneys", "Foundation", "Waterproofing", "Other / Multiple Services"];
 
 const fieldClass =
-  "w-full bg-concrete focus:bg-white border-2 border-line focus:border-brand text-coal placeholder-ash/70 px-4 py-3 text-sm outline-none transition-colors";
+  "w-full bg-white border border-line focus:border-brand focus:ring-2 focus:ring-brand/15 text-coal placeholder-stone/70 rounded-lg px-4 py-3.5 text-sm outline-none transition-all duration-200";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({ name: "", phone: "", email: "", service: "", message: "" });
@@ -41,8 +41,8 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="bg-concrete ticks p-10 text-center">
-        <span className="inline-flex items-center justify-center w-16 h-16 bg-brand mb-5">
+      <div className="bg-concrete rounded-xl p-10 text-center">
+        <span className="inline-flex items-center justify-center w-16 h-16 bg-brand rounded-full mb-5">
           <Check className="w-8 h-8 text-white" />
         </span>
         <h3 className="font-display font-bold uppercase text-coal text-2xl mb-2 tracking-[0.01em]">Message sent</h3>
@@ -55,20 +55,20 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label className="spec text-ash block mb-2">Full Name *</label>
+          <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Full Name <span className="text-brand">*</span></label>
           <input name="name" type="text" required value={formData.name} onChange={handleChange} placeholder="John Smith" className={fieldClass} />
         </div>
         <div>
-          <label className="spec text-ash block mb-2">Phone Number *</label>
+          <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Phone Number <span className="text-brand">*</span></label>
           <input name="phone" type="tel" required value={formData.phone} onChange={handleChange} placeholder="(732) 555-0100" className={fieldClass} />
         </div>
       </div>
       <div>
-        <label className="spec text-ash block mb-2">Email Address</label>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Email Address</label>
         <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@email.com" className={fieldClass} />
       </div>
       <div>
-        <label className="spec text-ash block mb-2">Service Needed *</label>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Service Needed <span className="text-brand">*</span></label>
         <select name="service" required value={formData.service} onChange={handleChange} className={fieldClass}>
           <option value="">Select a service…</option>
           {services.map((s) => (
@@ -77,7 +77,7 @@ export default function ContactForm() {
         </select>
       </div>
       <div>
-        <label className="spec text-ash block mb-2">Project Details</label>
+        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Project Details</label>
         <textarea name="message" rows={5} value={formData.message} onChange={handleChange} placeholder="Describe your project or issue…" className={`${fieldClass} resize-none`} />
       </div>
       {error && <p className="text-brand text-sm font-medium" role="alert">{error}</p>}
