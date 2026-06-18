@@ -4,7 +4,7 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import FAQ from "@/components/FAQ";
 import ReviewCards from "@/components/ReviewCards";
-import USAMap from "@/components/USAMap";
+import NJServiceMap from "@/components/NJServiceMap";
 import HeroServiceSlider from "@/components/HeroServiceSlider";
 import { PHONE } from "@/lib/seo-data";
 import { getReviews } from "@/lib/reviews-data";
@@ -472,17 +472,7 @@ export default async function HomePage() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="relative mx-auto max-w-4xl">
-              <USAMap className="w-full h-auto text-steel" />
-              {/* NJ marker label — anchored just above-right of NJ (~87% x, ~37% y) */}
-              <span className="absolute right-[6%] top-[20%] hidden sm:flex flex-col items-center">
-                <span className="font-display font-bold text-bone text-xs sm:text-sm whitespace-nowrap rounded-full bg-coal/85 ring-1 ring-brand/40 backdrop-blur px-3 py-1.5 shadow-block">
-                  <span className="text-brand">●</span> New Jersey
-                </span>
-                {/* connector line down to NJ */}
-                <span aria-hidden="true" className="w-px h-8 sm:h-10 bg-brand/50" />
-              </span>
-            </div>
+            <NJServiceMap />
           </Reveal>
 
           <Reveal delay={200} className="flex items-center justify-center gap-2 mt-10 text-bone/70">
