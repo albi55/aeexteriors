@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Check } from "@/components/icons";
+import { ArrowRight, Check, Phone, Mail, ShieldCheck } from "@/components/icons";
+import { PHONE } from "@/lib/seo-data";
 
 const services = ["Masonry", "Roofing", "Siding", "Gutters", "Chimneys", "Foundation", "Waterproofing", "Other / Multiple Services"];
 
-const fieldClass =
-  "w-full bg-white border border-line focus:border-brand focus:ring-2 focus:ring-brand/15 text-coal placeholder-stone/70 rounded-lg px-4 py-3.5 text-sm outline-none transition-all duration-200";
+export default function ContactForm({ tone = "light" }: { tone?: "light" | "dark" }) {
+  const dark = tone === "dark";
+  const labelClass = dark ? "field-label field-label-dark" : "field-label";
+  const fieldClass = dark ? "field field-dark" : "field";
+  const wrapClass = dark ? "field-wrap field-wrap-dark" : "field-wrap";
+  const noteClass = dark ? "text-bone/55" : "text-ash";
 
-export default function ContactForm() {
   const [formData, setFormData] = useState({ name: "", phone: "", email: "", service: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,12 +45,18 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="bg-concrete rounded-xl p-10 text-center">
-        <span className="inline-flex items-center justify-center w-16 h-16 bg-brand rounded-full mb-5">
-          <Check className="w-8 h-8 text-white" />
+      <div className={`rounded-[var(--radius)] p-10 text-center ${dark ? "bg-bone/5 border border-steel/70" : "bg-concrete"}`}>
+        <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/10 text-brand mb-5 animate-[fadeUp_500ms_var(--ease-out)]">
+          <Check className="w-8 h-8" />
         </span>
-        <h3 className="font-display font-bold uppercase text-coal text-2xl mb-2 tracking-[0.01em]">Message sent</h3>
-        <p className="text-ash text-sm">We&apos;ll be in touch within 24 hours to schedule your free estimate.</p>
+        <h3 className={`font-display font-bold text-2xl sm:text-3xl tracking-tight mb-2 ${dark ? "text-bone" : "text-coal"}`}>Message sent</h3>
+        <p className={`text-sm mb-6 max-w-sm mx-auto leading-relaxed ${dark ? "text-bone/60" : "text-ash"}`}>
+          We&apos;ll be in touch within 24 hours to schedule your free, no-obligation estimate.
+        </p>
+        <a href={`tel:${PHONE.replace(/\D/g, "")}`} className={dark ? "btn btn-outline-bone" : "btn btn-outline"}>
+          <Phone className="w-4 h-4" />
+          Or call {PHONE}
+        </a>
       </div>
     );
   }
@@ -55,21 +65,27 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Full Name <span className="text-brand">*</span></label>
-          <input name="name" type="text" required value={formData.name} onChange={handleChange} placeholder="John Smith" className={fieldClass} />
+          <label htmlFor="cf-name" className={labelClass}>Full Name <span className="req">*</span></label>
+          <input id="cf-name" name="name" type="text" required value={formData.name} onChange={handleChange} placeholder="John Smith" className={fieldClass} />
         </div>
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Phone Number <span className="text-brand">*</span></label>
-          <input name="phone" type="tel" required value={formData.phone} onChange={handleChange} placeholder="(732) 555-0100" className={fieldClass} />
+          <label htmlFor="cf-phone" className={labelClass}>Phone Number <span className="req">*</span></label>
+          <span className={wrapClass}>
+            <Phone className="field-icon" />
+            <input id="cf-phone" name="phone" type="tel" required value={formData.phone} onChange={handleChange} placeholder="(732) 555-0100" className={fieldClass} />
+          </span>
         </div>
       </div>
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Email Address</label>
-        <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@email.com" className={fieldClass} />
+        <label htmlFor="cf-email" className={labelClass}>Email Address</label>
+        <span className={wrapClass}>
+          <Mail className="field-icon" />
+          <input id="cf-email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@email.com" className={fieldClass} />
+        </span>
       </div>
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Service Needed <span className="text-brand">*</span></label>
-        <select name="service" required value={formData.service} onChange={handleChange} className={fieldClass}>
+        <label htmlFor="cf-service" className={labelClass}>Service Needed <span className="req">*</span></label>
+        <select id="cf-service" name="service" required value={formData.service} onChange={handleChange} className={fieldClass}>
           <option value="">Select a service…</option>
           {services.map((s) => (
             <option key={s} value={s}>{s}</option>
@@ -77,14 +93,20 @@ export default function ContactForm() {
         </select>
       </div>
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wide text-ash mb-2">Project Details</label>
-        <textarea name="message" rows={5} value={formData.message} onChange={handleChange} placeholder="Describe your project or issue…" className={`${fieldClass} resize-none`} />
+        <label htmlFor="cf-message" className={labelClass}>Project Details</label>
+        <textarea id="cf-message" name="message" rows={5} value={formData.message} onChange={handleChange} placeholder="Describe your project or issue…" className={`${fieldClass} resize-none`} />
       </div>
-      {error && <p className="text-brand text-sm font-medium" role="alert">{error}</p>}
+      {error && (
+        <p className="rounded-[var(--radius-sm)] bg-brand/10 text-brand text-sm font-semibold px-4 py-3" role="alert">{error}</p>
+      )}
       <button type="submit" disabled={loading} className="btn btn-red self-start disabled:opacity-60">
         {loading ? "Sending…" : "Send Message"}
         {!loading && <ArrowRight className="w-4 h-4" />}
       </button>
+      <p className={`flex items-center gap-1.5 text-xs ${noteClass}`}>
+        <ShieldCheck className="w-3.5 h-3.5 text-brand" />
+        Your details stay private — used only to contact you about your project.
+      </p>
     </form>
   );
 }

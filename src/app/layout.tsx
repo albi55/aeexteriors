@@ -3,7 +3,6 @@ import { Montserrat, Barlow, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import EstimateModalProvider from "@/components/EstimateModalProvider";
 
 // Display — clean, modern geometric sans for headlines.
 const montserrat = Montserrat({
@@ -166,16 +165,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <EstimateModalProvider>
-          <Navbar />
-          <main
-            className="flex-1 transition-[padding-top] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-            style={{ paddingTop: "var(--promo-h, 0px)" }}
-          >
-            {children}
-          </main>
-          <Footer />
-        </EstimateModalProvider>
+        <Navbar />
+        <main
+          className="flex-1 transition-[padding-top] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          style={{ paddingTop: "var(--promo-h, 0px)" }}
+        >
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

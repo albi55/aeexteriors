@@ -128,76 +128,94 @@ export default function ContactPage() {
       </section>
 
       {/* ════════════════════ FORM + INFO ════════════════════ */}
-      <section className="bg-concrete">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14">
+      {/* Full-bleed, edge-to-edge band — integrated page section, not a floating card. */}
+      <section className="relative bg-coal text-bone overflow-hidden">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] gap-x-16 gap-y-12 lg:gap-y-0">
 
-            {/* Form */}
-            <Reveal className="lg:col-span-2">
-              <span className="kicker mb-5">Free Estimate</span>
-              <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl lg:text-5xl leading-[0.95] tracking-[-0.01em] mb-3">
-                Request a quote
+            {/* Info — left, integrated into the dark surface with hairline dividers */}
+            <Reveal className="lg:order-1">
+              <span className="kicker mb-6">Get In Touch</span>
+              <h2 className="font-display font-bold uppercase text-bone text-3xl sm:text-4xl leading-[0.95] tracking-[-0.01em] mb-8">
+                The crew, on the<br className="hidden sm:block" /> other end.
               </h2>
-              <p className="text-ash text-sm mb-8 max-w-md">
-                Tell us about your project. We respond within 24 hours to schedule your free, no-obligation estimate.
-              </p>
-              <div className="bg-bone rule-brand shadow-soft rounded-b-[var(--radius)] p-6 sm:p-8">
-                <ContactForm />
+
+              <div className="divide-y divide-steel/70 border-y border-steel/70">
+                {/* Hours */}
+                <div className="py-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Clock className="w-4 h-4 text-brand" />
+                    <h3 className="spec text-bone/50">Business Hours</h3>
+                  </div>
+                  <div className="flex flex-col gap-2.5 text-sm">
+                    {hours.map((h) => (
+                      <div key={h.d} className="flex items-center justify-between">
+                        <span className="text-bone/55">{h.d}</span>
+                        <span className={`font-medium inline-flex items-center gap-2 ${h.open ? "text-bone" : "text-stone"}`}>
+                          {h.open && <span className="w-1.5 h-1.5 rounded-full bg-ember" aria-hidden="true" />}
+                          {h.h}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Service areas */}
+                <div className="py-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <MapPin className="w-4 h-4 text-brand" />
+                    <h3 className="spec text-bone/50">Service Areas</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-bone/75">
+                    <span>Passaic</span>
+                    <span>Bergen</span>
+                    <span>Essex</span>
+                    <span>Morris</span>
+                    <span className="spec text-bone/40 w-full mt-1">+ all 21 NJ counties</span>
+                  </div>
+                </div>
+
+                {/* Credentials */}
+                <div className="py-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Check className="w-4 h-4 text-brand" />
+                    <h3 className="spec text-bone/50">Credentials</h3>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2.5 text-sm">
+                    {credentials.map((item) => (
+                      <div key={item} className="flex items-center gap-2.5 text-bone/80">
+                        <span className="inline-flex items-center justify-center w-5 h-5 bg-brand flex-shrink-0 rounded-sm">
+                          <Check className="w-3 h-3 text-white" />
+                        </span>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-6">
+                <ShieldCheck className="w-7 h-7 text-brand flex-shrink-0" />
+                <p className="text-bone/70 text-sm leading-snug">
+                  Owner-supervised, fully insured, and proud of every job we sign our name to.
+                </p>
               </div>
             </Reveal>
 
-            {/* Info rail */}
-            <Reveal delay={100} className="flex flex-col gap-px bg-line border border-line rounded-[var(--radius)] overflow-hidden self-start">
-              <div className="bg-bone p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Clock className="w-4 h-4 text-brand" />
-                  <h3 className="spec text-brand">Business Hours</h3>
-                </div>
-                <div className="flex flex-col gap-2.5 text-sm">
-                  {hours.map((h) => (
-                    <div key={h.d} className="flex items-center justify-between">
-                      <span className="text-ash">{h.d}</span>
-                      <span className={`font-medium inline-flex items-center gap-2 ${h.open ? "text-coal" : "text-stone"}`}>
-                        {h.open && <span className="w-1.5 h-1.5 rounded-full bg-brand" aria-hidden="true" />}
-                        {h.h}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-bone p-6">
-                <h3 className="spec text-brand mb-4">Service Areas</h3>
-                <div className="flex flex-col gap-1.5 text-sm text-coal/80">
-                  <p>Passaic County</p>
-                  <p>Bergen County</p>
-                  <p>Essex County</p>
-                  <p>Morris County</p>
-                  <p className="spec text-ash mt-2">+ all 21 NJ counties</p>
-                </div>
-              </div>
-
-              <div className="bg-bone p-6">
-                <h3 className="spec text-brand mb-4">Credentials</h3>
-                <div className="flex flex-col gap-2.5 text-sm">
-                  {credentials.map((item) => (
-                    <div key={item} className="flex items-center gap-2.5 text-coal/80">
-                      <span className="inline-flex items-center justify-center w-5 h-5 bg-brand flex-shrink-0 rounded-sm">
-                        <Check className="w-3 h-3 text-white" />
-                      </span>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="surface-ink relative overflow-hidden p-6">
-                <div className="absolute inset-0 tex-blueprint opacity-40 pointer-events-none" aria-hidden="true" />
-                <div className="relative flex items-center gap-3">
-                  <ShieldCheck className="w-7 h-7 text-brand flex-shrink-0" />
-                  <p className="text-bone/85 text-sm leading-snug">
-                    Owner-supervised, fully insured, and proud of every job we sign our name to.
+            {/* Form — right, on an elevated dark panel for depth (not a white modal card) */}
+            <Reveal delay={100} className="lg:order-2">
+              <div className="relative rounded-[var(--radius-lg)] border border-steel/80 bg-char shadow-[0_30px_60px_-25px_rgba(0,0,0,0.8)] overflow-hidden">
+                {/* brand accent rail */}
+                <div className="h-1 w-full bg-brand" aria-hidden="true" />
+                <div className="p-7 sm:p-10">
+                  <span className="kicker mb-5">Free Estimate</span>
+                  <h2 className="font-display font-bold uppercase text-bone text-3xl sm:text-4xl leading-[0.95] tracking-[-0.01em] mb-3">
+                    Request a quote
+                  </h2>
+                  <p className="text-bone/55 text-sm mb-8 max-w-md">
+                    Tell us about your project. We respond within 24 hours to schedule your free, no-obligation estimate.
                   </p>
+                  <ContactForm tone="dark" />
                 </div>
               </div>
             </Reveal>

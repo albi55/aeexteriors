@@ -332,3 +332,124 @@ h1.font-display, h2.font-display, h3.font-display,
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   FORM FIELDS — one shared, blueprint-grade input system
+   Used by the estimate modal, contact form & inline form so
+   every "Request a quote" surface feels like the same instrument.
+   ============================================================ */
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-ash);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.field-label .req { color: var(--color-brand); }
+
+/* Wrapper so we can park an icon inside the field */
+.field-wrap { position: relative; display: block; }
+.field-wrap > .field-icon {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;                    /* vertically centered on the input */
+  transform: translateY(-50%);
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--color-stone);
+  transition: color 0.2s var(--ease-out);
+  pointer-events: none;
+  z-index: 1;
+}
+.field-wrap:focus-within > .field-icon { color: var(--color-brand); }
+
+/* The control itself */
+.field {
+  width: 100%;
+  background: var(--color-concrete);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-coal);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  padding: 0.8rem 1rem;
+  outline: none;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+}
+.field::placeholder { color: color-mix(in srgb, var(--color-stone) 85%, transparent); }
+.field:hover { border-color: color-mix(in srgb, var(--color-coal) 22%, var(--color-line)); }
+.field:focus {
+  background: var(--color-bone);
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 14%, transparent);
+}
+/* When a field has a leading icon, push the text right */
+.field-wrap > .field-icon ~ .field { padding-left: 2.6rem; }
+
+/* Custom select chevron — no native arrow, brand-tinted caret */
+select.field {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A8A92' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.05rem;
+  padding-right: 2.6rem;
+  cursor: pointer;
+}
+select.field:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B40A0A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* Dark tone — fields/labels rendered directly on a dark (surface-ink) band */
+.field-label-dark { color: color-mix(in srgb, var(--color-bone) 50%, transparent); }
+
+.field-dark {
+  background-color: #0B0B0C;
+  border-color: color-mix(in srgb, var(--color-bone) 14%, transparent);
+  color: var(--color-bone);
+}
+.field-dark::placeholder { color: color-mix(in srgb, var(--color-bone) 32%, transparent); }
+.field-dark:hover { border-color: color-mix(in srgb, var(--color-bone) 26%, transparent); }
+.field-dark:focus {
+  background-color: #000000;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 25%, transparent);
+}
+select.field.field-dark,
+select.field.field-dark:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.05rem;
+}
+/* Readable dropdown list on dark forms */
+select.field-dark option {
+  background-color: var(--color-char);
+  color: var(--color-bone);
+}
+.field-wrap-dark > .field-icon { color: color-mix(in srgb, var(--color-bone) 40%, transparent); }
+.field-wrap-dark:focus-within > .field-icon { color: var(--color-brand); }
+
+/* ============================================================
+   MODAL — estimate dialog entrance + scrim
+   ============================================================ */
+
+@keyframes modalScrim {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+.animate-modal-scrim { animation: modalScrim 0.3s var(--ease-out) both; }
+.animate-modal-pop { animation: modalPop 0.42s var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-scrim, .animate-modal-pop { animation: none; }
+}

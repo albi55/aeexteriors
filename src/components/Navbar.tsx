@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEstimate } from "@/components/EstimateModalProvider";
 import { Phone, ArrowRight, ShieldCheck } from "@/components/icons";
 import { PHONE, LICENSE } from "@/lib/seo-data";
 
@@ -27,7 +26,6 @@ export default function Navbar() {
   const infoRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { openEstimate } = useEstimate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -150,16 +148,16 @@ export default function Navbar() {
                   our home-exterior services. Whether you need roofing, siding, gutters, or more — reach out today and
                   claim your savings.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => { setInfoOpen(false); openEstimate(); }}
+                <Link
+                  href="/contact"
+                  onClick={() => setInfoOpen(false)}
                   className="group inline-flex items-center gap-2.5 mt-4 font-display font-bold text-white text-sm hover:gap-3.5 transition-all"
                 >
                   Inquire Now
                   <span className="inline-flex items-center justify-center w-7 h-7 rounded-full border-2 border-white/70 group-hover:bg-white group-hover:text-brand-deep transition-colors">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -217,14 +215,13 @@ export default function Navbar() {
                 <Phone className="w-4 h-4" />
                 732·956·0411
               </a>
-              <button
-                type="button"
-                onClick={openEstimate}
+              <Link
+                href="/contact"
                 className="group inline-flex items-center gap-2 rounded-full bg-brand hover:bg-brand-deep text-white font-display font-bold text-sm px-5 py-2.5 shadow-[0_10px_24px_-10px_rgba(180,10,10,0.55)] hover:shadow-[0_16px_30px_-12px_rgba(180,10,10,0.6)] hover:-translate-y-0.5 transition-all duration-200"
               >
                 Free Estimate
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+              </Link>
             </div>
 
             {/* Mobile controls */}
@@ -275,14 +272,14 @@ export default function Navbar() {
                     </Link>
                   ))}
                 </nav>
-                <button
-                  type="button"
-                  onClick={() => { setOpen(false); openEstimate(); }}
+                <Link
+                  href="/contact"
+                  onClick={() => setOpen(false)}
                   className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-deep text-white font-display uppercase text-sm tracking-[0.06em] py-3.5 transition-colors"
                 >
                   Free Estimate
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
                 <a
                   href="tel:7329560411"
                   onClick={() => setOpen(false)}
