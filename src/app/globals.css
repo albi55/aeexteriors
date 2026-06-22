@@ -327,6 +327,32 @@ h1.font-display, h2.font-display, h3.font-display,
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+/* ============================================================
+   SERVICES — modern helpers (scoped to /services)
+   No gradients, no grid lines — flat surfaces + crisp motion.
+   ============================================================ */
+
+/* Light page canvas (single solid color) */
+.svc-canvas { background-color: var(--color-concrete); }
+
+/* Flat solid tint that sits over the hero photo for legibility (no gradient) */
+.svc-tint-strong { background-color: rgba(8, 8, 9, 0.72); }
+/* Card photos: a flat tint so the pinned title reads */
+.svc-card-tint { background-color: rgba(8, 8, 9, 0.46); }
+
+/* Big media cards — soft lift on a light page + crisp brand ring on hover */
+.svc-card {
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.svc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 0 1.5px var(--color-brand), var(--shadow-block);
+}
+
+/* Short solid accent rule under headings (flat color, no gradient) */
+.svc-rule { height: 3px; background: var(--color-brand); border-radius: 99px; }
+
 /* Fade + lift — used when the service detail panel swaps content */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(14px); }
