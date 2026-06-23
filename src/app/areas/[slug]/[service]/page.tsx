@@ -7,7 +7,7 @@ import FAQ from "@/components/FAQ";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
 import { getCityServiceContent, getAllCityServiceParams } from "@/lib/city-service-content";
 import { services, SITE_URL, BUSINESS_NAME, PHONE, PHONE_LINK, ADDRESS, LICENSE } from "@/lib/seo-data";
-import { ArrowRight, Phone, Check, serviceIcons } from "@/components/icons";
+import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, serviceIcons } from "@/components/icons";
 
 export async function generateStaticParams() {
   return getAllCityServiceParams();
@@ -98,65 +98,97 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
   };
 
   return (
-    <div className="bg-concrete">
+    <div className="svc-canvas text-coal">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      {/* ════════ HERO ════════ */}
-      <section className="relative surface-ink overflow-hidden">
+      {/* ════════════════════ HERO ════════════════════ */}
+      <section className="relative overflow-hidden">
         {data.images.length > 0 && (
           <div className="absolute inset-0">
-            <Image src={data.images[0]} alt={`${data.title} in ${data.city}, NJ`} fill priority className="object-cover" sizes="100vw" />
+            <Image
+              src={data.images[0]}
+              alt={`${data.title} in ${data.city}, NJ`}
+              fill
+              priority
+              className="object-cover scale-105 animate-[heroPan_20s_ease-in-out_infinite_alternate]"
+              sizes="100vw"
+            />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/85 to-ink/55" />
-        <div className="absolute inset-0 tex-blueprint opacity-40 tex-fade-top pointer-events-none" aria-hidden="true" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <nav className="flex items-center gap-2 spec text-bone/40 mb-6 flex-wrap">
-                <Link href="/" className="hover:text-brand">Home</Link>
+        <div className="absolute inset-0 svc-tint-strong" aria-hidden="true" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <Reveal>
+              <nav className="flex items-center gap-2 spec text-bone/45 mb-6 flex-wrap text-[0.6rem]">
+                <Link href="/" className="hover:text-ember transition-colors">Home</Link>
                 <span>/</span>
-                <Link href="/areas" className="hover:text-brand">Areas</Link>
+                <Link href="/areas" className="hover:text-ember transition-colors">Areas</Link>
                 <span>/</span>
-                <Link href={`/areas/${slug}`} className="hover:text-brand">{data.city}</Link>
+                <Link href={`/areas/${slug}`} className="hover:text-ember transition-colors">{data.city}</Link>
                 <span>/</span>
-                <span className="text-brand">{data.title}</span>
+                <span className="text-ember">{data.title}</span>
               </nav>
-              <div className="flex items-center gap-4 mb-5">
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white p-1.5">
+              <div className="flex items-center gap-3.5 mb-5">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white p-1.5 shadow-soft flex-shrink-0">
                   {Icon ? <Icon className="w-full h-full" /> : null}
                 </span>
-                <span className="kicker">{data.title} · {data.city}</span>
+                <span className="kicker !bg-white/15 !text-white">{data.title} · {data.city}</span>
               </div>
-              <h1 className="font-display font-bold uppercase text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.92] tracking-[-0.015em] mb-6">
-                {data.title} Contractor in {data.city}, NJ
+              <h1 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[0.98] tracking-tight mb-6">
+                {data.title} Contractor in{" "}
+                <span className="text-ember">{data.city}</span>, NJ
               </h1>
-              <p className="text-bone/65 text-base lg:text-lg max-w-md mb-8">
+              <p className="text-bone/70 text-base lg:text-lg max-w-md mb-9 leading-relaxed">
                 {data.tagline}. NJ Licensed &amp; Insured. Serving {data.city} and all of {data.county}.
               </p>
-              <a href="tel:7329560411" className="btn btn-red">
-                <Phone className="w-4 h-4" />
-                Call {PHONE}
-              </a>
-            </div>
-            <Reveal delay={80}>
+
+              <div className="flex flex-wrap gap-3 mb-8">
+                <a href="tel:7329560411" className="btn btn-red">
+                  <Phone className="w-4 h-4" />
+                  Call {PHONE}
+                </a>
+                <a href="#content" className="btn btn-outline-bone">
+                  Learn More
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                {[
+                  { Icon: ShieldCheck, t: `NJ Licensed #${LICENSE}` },
+                  { Icon: Check, t: "Fully Insured" },
+                  { Icon: Check, t: "Free Estimates" },
+                ].map(({ Icon: TrustIcon, t }) => (
+                  <li key={t} className="inline-flex items-center gap-2 text-bone/70 text-sm">
+                    <TrustIcon className="w-4 h-4 text-ember" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={120}>
               <InlineEstimateForm />
             </Reveal>
           </div>
         </div>
+
+        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
       </section>
 
-      {/* ════════ CONTENT ════════ */}
-      <section className="bg-bone">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      {/* ════════════════════ CONTENT ════════════════════ */}
+      <section id="content" className="scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-14">
             <Reveal className="lg:col-span-2">
               <span className="kicker mb-5">{data.title} in {data.city}</span>
-              <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl leading-[0.95] tracking-[-0.01em] mb-6">
+              <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.05] tracking-tight mb-6">
                 Professional {data.title} in {data.city}, {data.county}
               </h2>
+              <div className="svc-rule w-20 mb-7" />
               <div className="flex flex-col gap-4 text-ash text-base leading-relaxed">
                 {data.content.map((p, i) => (
                   <p key={i}>{p}</p>
@@ -164,40 +196,52 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
               </div>
             </Reveal>
 
-            <Reveal delay={100}>
-              <div className="border border-line">
-                <div className="px-5 py-4 border-b border-line bg-concrete">
-                  <span className="spec text-brand">{data.title} · {data.city}</span>
+            <Reveal delay={120}>
+              <div className="lg:sticky lg:top-28 rounded-2xl bg-bone border border-line shadow-soft overflow-hidden">
+                <div className="h-1 w-full bg-brand" aria-hidden="true" />
+                <div className="px-6 py-4 border-b border-line">
+                  <span className="spec text-brand">What&apos;s Included</span>
                 </div>
-                {data.subServices.map((sub, j) => (
-                  <div key={sub} className={`flex items-center gap-3 px-5 py-3 ${j < data.subServices.length - 1 ? "border-b border-line" : ""}`}>
-                    <span className="inline-flex items-center justify-center w-5 h-5 bg-brand flex-shrink-0">
-                      <Check className="w-3 h-3 text-white" />
-                    </span>
-                    <span className="text-coal/80 text-sm">{sub}</span>
-                  </div>
-                ))}
+                <div className="p-2">
+                  {data.subServices.map((sub) => (
+                    <div key={sub} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-concrete transition-colors">
+                      <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-brand flex-shrink-0">
+                        <Check className="w-3 h-3 text-white" />
+                      </span>
+                      <span className="text-coal/80 text-sm">{sub}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ════════ PROJECT PHOTOS ════════ */}
+      {/* ════════════════════ PROJECT PHOTOS ════════════════════ */}
       {displayImages.length > 1 && (
         <section className="bg-cement">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-24">
-            <Reveal className="mb-10">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+            <Reveal className="max-w-2xl mb-12 lg:mb-14">
               <span className="kicker mb-5">Our Work</span>
-              <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl lg:text-5xl leading-[0.95] tracking-[-0.01em]">
-                {data.title} projects near {data.city}
+              <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.0] tracking-tight">
+                {data.title} near{" "}
+                <span className="text-brand">{data.city}.</span>
               </h2>
+              <div className="svc-rule w-20 mt-7" />
             </Reveal>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {displayImages.slice(1).map((src, i) => (
-                <Reveal key={i} delay={(i % 3) * 70}>
-                  <div className="relative aspect-[4/3] overflow-hidden bg-cement group ticks">
-                    <Image src={src} alt={`${data.title} project ${i + 1} near ${data.city}, NJ by ${BUSINESS_NAME}`} fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="(max-width: 1024px) 50vw, 33vw" />
+                <Reveal key={i} variant="zoom" delay={(i % 3) * 70}>
+                  <div className="group relative aspect-[4/3] overflow-hidden ticks bg-cement ring-1 ring-coal/[0.06] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:ring-2 hover:ring-brand/40 hover:shadow-block">
+                    <Image
+                      src={src}
+                      alt={`${data.title} project ${i + 1} near ${data.city}, NJ by ${BUSINESS_NAME}`}
+                      fill
+                      className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]"
+                      sizes="(max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </Reveal>
               ))}
@@ -221,28 +265,33 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* ════════ OTHER SERVICES IN CITY ════════ */}
+      {/* ════════════════════ OTHER SERVICES IN CITY ════════════════════ */}
       <section className="surface-ink relative overflow-hidden">
         <div className="absolute inset-0 tex-blueprint opacity-50 pointer-events-none" aria-hidden="true" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-24">
-          <Reveal className="mb-10">
-            <span className="kicker mb-5">More in {data.city}</span>
-            <h2 className="font-display font-bold uppercase text-bone text-3xl sm:text-4xl lg:text-5xl leading-[0.95] tracking-[-0.01em]">
-              Other services in {data.city}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <Reveal className="max-w-2xl mb-12 lg:mb-14">
+            <span className="kicker mb-5 !bg-white/10">More in {data.city}</span>
+            <h2 className="font-display font-bold text-bone text-3xl sm:text-4xl lg:text-5xl leading-[1.0] tracking-tight">
+              Other services in{" "}
+              <span className="text-ember">{data.city}.</span>
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-steel border border-steel">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             {otherServices.map((s) => {
               const OtherIcon = serviceIcons[s.slug];
               return (
-                <Link key={s.slug} href={`/areas/${slug}/${s.slug}`} className="group bg-coal hover:bg-char p-6 transition-colors">
+                <Link
+                  key={s.slug}
+                  href={`/areas/${slug}/${s.slug}`}
+                  className="group rounded-2xl bg-char border border-steel/80 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                >
                   <div className="flex items-center justify-between mb-4">
-                    <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white p-1.5">
+                    <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white p-1.5 flex-shrink-0">
                       {OtherIcon ? <OtherIcon className="w-full h-full" /> : null}
                     </span>
-                    <ArrowRight className="w-4 h-4 text-bone/40 group-hover:text-brand transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-bone/35 group-hover:text-brand transition-colors" />
                   </div>
-                  <h3 className="font-display font-semibold uppercase text-bone text-base tracking-[0.01em] mb-1 group-hover:text-brand transition-colors">{s.title} in {data.city}</h3>
+                  <h3 className="font-display font-bold text-bone text-lg tracking-tight mb-1 group-hover:text-ember transition-colors">{s.title} in {data.city}</h3>
                   <p className="text-bone/50 text-xs leading-relaxed">{s.tagline}</p>
                 </Link>
               );
