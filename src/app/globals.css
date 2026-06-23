@@ -1,4 +1,9 @@
-@import "tailwindcss";
+/* Disable Tailwind's automatic source detection and scope it to our own
+   source only. This project's path sits inside a .git/objects tree; with
+   auto-detection on, Tailwind v4 walks binary git objects and emits corrupt
+   CSS (e.g. `.bg-[b��:var(--my-…)]`), which fails the CSS parser. */
+@import "tailwindcss" source(none);
+@source "../../**/*.{ts,tsx}";
 
 /* ============================================================
    A&E EXTERIORS — CLEAN PROFESSIONAL IDENTITY
@@ -478,4 +483,13 @@ select.field-dark option {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-modal-scrim, .animate-modal-pop { animation: none; }
+}
+
+/* ============================================================
+   TOWN SEARCH — pill input on the service-areas directory
+   ============================================================ */
+
+.town-search:focus {
+  border-color: color-mix(in srgb, var(--color-brand) 60%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand) 12%, transparent);
 }

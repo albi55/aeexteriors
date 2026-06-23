@@ -3,7 +3,17 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import FAQ from "@/components/FAQ";
 import { PHONE, SITE_URL, BUSINESS_NAME, LICENSE } from "@/lib/seo-data";
-import { ArrowRight, Phone, Bolt } from "@/components/icons";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Phone,
+  Bolt,
+  Check,
+  ShieldCheck,
+  Clock,
+  MapPin,
+  serviceIcons,
+} from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Resources & FAQ",
@@ -22,7 +32,9 @@ const quickAnswers = [
 
 const categories = [
   {
+    id: "hiring",
     name: "Hiring & Credentials",
+    blurb: "How to vet a contractor and what protects you on the job.",
     items: [
       { q: "How do I verify a contractor's NJ license?", a: `New Jersey home improvement contractors must register with the NJ Division of Consumer Affairs. You can verify any HIC license number on the state's website. Ours is #${LICENSE} — always confirm a contractor is licensed and insured before signing anything.` },
       { q: "Do you use subcontractors?", a: "No. Every project is handled by our own crew and personally supervised by the owner from start to finish, so quality and accountability never slip." },
@@ -31,7 +43,9 @@ const categories = [
     ],
   },
   {
+    id: "pricing",
     name: "Estimates, Pricing & Financing",
+    blurb: "Straight talk on quotes, deposits, financing, and what can change.",
     items: [
       { q: "How is the price of a project determined?", a: "Pricing depends on the scope of work, materials selected, the size and condition of the area, access, and labor. We provide a transparent, itemized estimate so you can see exactly what you're paying for — no hidden fees." },
       { q: "Do you require a deposit?", a: "For larger projects we typically collect a deposit to schedule the work and order materials, with the balance due on completion. We'll lay out the payment schedule clearly before any work begins." },
@@ -40,7 +54,9 @@ const categories = [
     ],
   },
   {
+    id: "process",
     name: "Scheduling, Permits & Process",
+    blurb: "Timelines, permits, weather, and what we leave behind.",
     items: [
       { q: "How soon can you start my project?", a: "We respond fast — usually the same day — and schedule promptly. Timing depends on the season and project size, but we'll give you a realistic start date during your estimate." },
       { q: "Do you handle permits?", a: "When a permit is required by your municipality, we help coordinate it as part of the job. New Jersey towns have their own permitting rules, and we make sure the work is done to code." },
@@ -49,7 +65,9 @@ const categories = [
     ],
   },
   {
+    id: "services",
     name: "Services & Materials",
+    blurb: "How each trade works and what holds up in New Jersey's climate.",
     items: [
       { q: "How long does a new roof last in New Jersey?", a: "A quality architectural asphalt shingle roof typically lasts 25–30 years in NJ's climate, depending on ventilation, installation, and maintenance. Flat roofing systems (TPO/EPDM) generally last 15–25 years." },
       { q: "What siding is best for NJ homes?", a: "Vinyl and fiber cement (James Hardie) are the most popular choices in New Jersey. Vinyl is cost-effective and low-maintenance; fiber cement is more durable and fire-resistant. We'll recommend the best fit for your home and budget." },
@@ -60,6 +78,34 @@ const categories = [
       { q: "What is tuckpointing (repointing)?", a: "Tuckpointing is the process of removing deteriorated mortar from brick or stone joints and replacing it with fresh mortar. It restores both the structural integrity and the appearance of masonry, and it's essential for NJ's freeze-thaw climate." },
     ],
   },
+];
+
+// A genuinely useful homeowner checklist — the value-add for a resources page.
+const hireChecklist = [
+  { t: "Confirm the NJ license & insurance", d: "Ask for the HIC registration number and a certificate of insurance — then verify both before signing." },
+  { t: "Get it in writing", d: "A clear, itemized written estimate protects you. Scope, materials, timeline, and payment schedule should all be spelled out." },
+  { t: "Ask who does the work", d: "Own crew or subcontractors? Owner-supervised work means consistent quality and one point of accountability." },
+  { t: "Understand the payment schedule", d: "Know the deposit, the milestones, and the final balance up front. Avoid paying everything before work begins." },
+  { t: "Clarify the warranty", d: "Separate workmanship warranty from manufacturer material warranties — and get the coverage in writing." },
+  { t: "Check the cleanup & permits", d: "Confirm who pulls permits and that the site will be left clean with a final walkthrough." },
+];
+
+// Seasonal maintenance reminders — useful, evergreen content.
+const seasonalTips = [
+  { season: "Spring", d: "Clean gutters after pollen and storms, inspect the roof for winter damage, and check masonry for new freeze-thaw cracks." },
+  { season: "Summer", d: "Ideal window for roofing, siding, and masonry. Schedule larger exterior projects before the fall rush." },
+  { season: "Fall", d: "Clear gutters of leaves, seal chimney crowns and flashing, and waterproof the basement ahead of winter." },
+  { season: "Winter", d: "Watch for ice dams and roof leaks, keep downspouts clear of ice, and act fast on any active water intrusion." },
+];
+
+const serviceLinks = [
+  { slug: "masonry", title: "Masonry" },
+  { slug: "roofing", title: "Roofing" },
+  { slug: "siding", title: "Siding" },
+  { slug: "gutters", title: "Gutters" },
+  { slug: "chimneys", title: "Chimneys" },
+  { slug: "foundation", title: "Foundation" },
+  { slug: "waterproofing", title: "Waterproofing" },
 ];
 
 const allFaqs = [...quickAnswers, ...categories.flatMap((c) => c.items)];
@@ -85,43 +131,110 @@ const breadcrumbJsonLd = {
 
 export default function ResourcesPage() {
   return (
-    <div className="bg-concrete">
+    <div className="svc-canvas text-coal">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      {/* ════════ HERO ════════ */}
+      {/* ════════════════════ HERO ════════════════════ */}
       <section className="relative surface-ink overflow-hidden">
         <div className="absolute inset-0 tex-blueprint opacity-50 tex-fade-top pointer-events-none" aria-hidden="true" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-16 lg:pb-20">
-          <span className="kicker mb-6">Resources &amp; FAQ</span>
-          <h1 className="font-display font-bold uppercase text-bone text-5xl sm:text-6xl lg:text-7xl leading-[0.9] tracking-[-0.015em] mb-6">
-            Straight <span className="text-brand">answers</span>
-          </h1>
-          <p className="text-bone/65 text-base lg:text-lg max-w-2xl">
-            Everything New Jersey homeowners ask before hiring an exterior contractor — licensing, pricing,
-            financing, permits, timelines, and how each trade works. No jargon, no runaround.
-          </p>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+            <Reveal className="lg:col-span-8">
+              <span className="kicker mb-6 !bg-white/10 !text-bone">Resources &amp; FAQ</span>
+              <h1 className="font-display font-bold text-bone text-5xl sm:text-6xl lg:text-7xl leading-[0.96] tracking-tight mb-6">
+                Straight <span className="text-ember">answers</span> for NJ homeowners.
+              </h1>
+              <p className="text-bone/65 text-base lg:text-lg max-w-2xl leading-relaxed">
+                Everything you ask before hiring an exterior contractor — licensing,
+                pricing, financing, permits, timelines, and how each trade works.
+                No jargon, no runaround.
+              </p>
+
+              <div className="flex flex-wrap gap-3 mt-9">
+                <a href="#quick" className="btn btn-red">
+                  Read the FAQ
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a href="tel:7329560411" className="btn btn-outline-bone">
+                  <Phone className="w-4 h-4" />
+                  Call {PHONE}
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120} className="lg:col-span-4">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                {[
+                  { Icon: ShieldCheck, t: `NJ Lic #${LICENSE}`, d: "Licensed & fully insured" },
+                  { Icon: Clock, t: "Same-day response", d: "Priority for emergencies" },
+                  { Icon: MapPin, t: "All 21 counties", d: "Statewide New Jersey" },
+                ].map(({ Icon, t, d }) => (
+                  <li key={t} className="flex items-start gap-3.5 rounded-2xl bg-white/[0.04] ring-1 ring-white/10 px-5 py-4">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand text-white flex-shrink-0">
+                      <Icon className="w-5 h-5" />
+                    </span>
+                    <span className="leading-tight">
+                      <span className="block font-display font-bold text-bone text-sm">{t}</span>
+                      <span className="block text-bone/55 text-xs mt-0.5">{d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
+      </section>
+
+      {/* ════════════════════ TOPIC JUMP NAV ════════════════════ */}
+      <section className="bg-bone/95 backdrop-blur border-b border-line sticky top-16 lg:top-20 z-30">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+          <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar py-4" aria-label="Resource topics">
+            <span className="spec text-stone flex-shrink-0 mr-2 hidden sm:inline">Jump to</span>
+            {categories.map((cat) => (
+              <a
+                key={cat.id}
+                href={`#${cat.id}`}
+                className="flex-shrink-0 inline-flex items-center rounded-full border border-line bg-concrete px-4 py-2 font-display font-semibold text-sm text-coal/75 hover:border-brand/50 hover:text-brand transition-colors"
+              >
+                {cat.name}
+              </a>
+            ))}
+            <a
+              href="#checklist"
+              className="flex-shrink-0 inline-flex items-center rounded-full border border-line bg-concrete px-4 py-2 font-display font-semibold text-sm text-coal/75 hover:border-brand/50 hover:text-brand transition-colors"
+            >
+              Hiring Checklist
+            </a>
+          </nav>
         </div>
       </section>
 
-      {/* ════════ QUICK ANSWERS ════════ */}
-      <section className="bg-bone">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-20">
-          <Reveal className="mb-10">
+      {/* ════════════════════ QUICK ANSWERS ════════════════════ */}
+      <section id="quick" className="scroll-mt-40 bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <Reveal className="max-w-2xl mb-10 lg:mb-12">
             <span className="kicker mb-5">Quick Answers</span>
-            <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl lg:text-5xl leading-[0.95] tracking-[-0.01em]">
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
               The short version
             </h2>
+            <div className="svc-rule w-24 mt-7" />
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-line border border-line">
-            {quickAnswers.map((qa) => (
-              <Reveal key={qa.q}>
-                <div className="h-full bg-bone p-7">
-                  <div className="flex items-start gap-3 mb-3">
-                    <Bolt className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
-                    <h3 className="font-display font-semibold uppercase text-coal text-lg leading-snug tracking-[0.01em]">{qa.q}</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+            {quickAnswers.map((qa, i) => (
+              <Reveal key={qa.q} delay={Math.min(i * 70, 210)}>
+                <div className="group h-full rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30">
+                  <div className="flex items-start gap-3.5 mb-3">
+                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand/10 text-brand flex-shrink-0">
+                      <Bolt className="w-5 h-5" />
+                    </span>
+                    <h3 className="font-display font-bold text-coal text-lg leading-snug tracking-tight pt-1">{qa.q}</h3>
                   </div>
-                  <p className="text-ash text-sm leading-relaxed pl-8">{qa.a}</p>
+                  <p className="text-ash text-sm leading-relaxed pl-[3.125rem]">{qa.a}</p>
                 </div>
               </Reveal>
             ))}
@@ -129,42 +242,181 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      {/* ════════ CATEGORIES ════════ */}
-      {categories.map((cat, i) => (
-        <section key={cat.name} className={i % 2 === 0 ? "bg-concrete" : "bg-cement"}>
-          <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-20">
-            <Reveal className="mb-8">
-              <span className="kicker mb-4">{String(i + 1).padStart(2, "0")} / Topic</span>
-              <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl leading-[0.95] tracking-[-0.01em]">
-                {cat.name}
-              </h2>
-            </Reveal>
-            <Reveal delay={80}>
-              <FAQ items={cat.items} />
-            </Reveal>
-          </div>
-        </section>
-      ))}
+      {/* ════════════════════ CATEGORIES ════════════════════ */}
+      <section className="bg-concrete pb-4">
+        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-col gap-16 lg:gap-24">
+          {categories.map((cat, i) => (
+            <div key={cat.id} id={cat.id} className="scroll-mt-40">
+              <Reveal className="mb-8 lg:mb-10">
+                <span className="spec text-brand mb-4 block">{String(i + 1).padStart(2, "0")} · Topic</span>
+                <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
+                  {cat.name}
+                </h2>
+                <p className="text-ash text-base lg:text-lg leading-relaxed mt-4 max-w-xl">{cat.blurb}</p>
+              </Reveal>
+              <Reveal delay={80}>
+                <FAQ items={cat.items} />
+              </Reveal>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* ════════ CTA ════════ */}
-      <section className="surface-brand">
-        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 py-20 text-center">
-          <h2 className="font-display font-bold uppercase text-white text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-[-0.01em] mb-5">
-            Still have a question?
-          </h2>
-          <p className="text-white/85 text-base lg:text-lg mb-10 max-w-xl mx-auto">
-            Call us — a real person answers — or request a free estimate and we&apos;ll walk you through it.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="tel:7329560411" className="btn btn-bone w-full sm:w-auto justify-center">
-              <Phone className="w-4 h-4" />
-              Call {PHONE}
-            </a>
-            <Link href="/contact" className="btn btn-ink w-full sm:w-auto justify-center">
-              Get Free Estimate
-              <ArrowRight className="w-4 h-4" />
+      {/* ════════════════════ HIRING CHECKLIST ════════════════════ */}
+      <section id="checklist" className="scroll-mt-40 relative surface-ink overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 tex-blueprint opacity-50 tex-fade-top" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <Reveal className="max-w-2xl mb-12 lg:mb-16">
+            <span className="kicker mb-5 !bg-white/10 !text-bone">Know Before You Hire</span>
+            <h2 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              The 6-point homeowner{" "}
+              <span className="text-ember">checklist.</span>
+            </h2>
+            <p className="text-bone/65 text-base lg:text-lg leading-relaxed mt-6">
+              Run any exterior contractor through this before you sign — it&apos;s the
+              same standard we hold ourselves to.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-steel rounded-3xl overflow-hidden border border-steel">
+            {hireChecklist.map((item, i) => (
+              <Reveal key={item.t} delay={Math.min(i * 70, 280)}>
+                <div className="group h-full bg-coal p-7 lg:p-8 transition-colors duration-300 hover:bg-char">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand text-white font-display font-bold text-sm flex-shrink-0">
+                      {i + 1}
+                    </span>
+                    <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-ember/15 text-ember">
+                      <Check className="w-4 h-4" />
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-bone text-lg tracking-tight mb-2">{item.t}</h3>
+                  <p className="text-bone/60 text-sm leading-relaxed">{item.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ SEASONAL MAINTENANCE ════════════════════ */}
+      <section className="bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <Reveal className="max-w-2xl mb-10 lg:mb-14">
+            <span className="kicker mb-5">Seasonal Care</span>
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              A year of exterior upkeep
+            </h2>
+            <div className="svc-rule w-24 mt-7 mb-6" />
+            <p className="text-ash text-base lg:text-lg leading-relaxed">
+              Small, seasonal maintenance prevents the big, expensive repairs.
+              Here&apos;s what to watch through the New Jersey year.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {seasonalTips.map((tip, i) => (
+              <Reveal key={tip.season} delay={Math.min(i * 70, 210)}>
+                <div className="h-full rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7">
+                  <span className="spec text-brand mb-4 block">{String(i + 1).padStart(2, "0")} · {tip.season}</span>
+                  <h3 className="font-display font-bold text-coal text-xl tracking-tight mb-3">{tip.season}</h3>
+                  <p className="text-ash text-sm leading-relaxed">{tip.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ SERVICE DEEP-LINKS ════════════════════ */}
+      <section className="bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-0 pb-16 lg:pb-24">
+          <Reveal className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12">
+            <div className="max-w-2xl">
+              <span className="kicker mb-5">Explore the Work</span>
+              <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
+                Dig deeper by trade
+              </h2>
+              <p className="text-ash text-base lg:text-lg leading-relaxed mt-4">
+                Every service has its own page with the full scope, photos, and answers.
+              </p>
+            </div>
+            <Link href="/services" className="group inline-flex items-center gap-2 font-display font-semibold text-coal hover:text-brand transition-colors flex-shrink-0 pb-1">
+              <span className="border-b-2 border-brand/30 group-hover:border-brand pb-1 transition-colors">All Services</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+            {serviceLinks.map((s) => {
+              const Icon = serviceIcons[s.slug];
+              return (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  className="group relative flex flex-col items-start rounded-2xl bg-bone border border-line shadow-soft p-5 lg:p-6 transition-all duration-300 hover:shadow-block hover:border-brand/30"
+                >
+                  <span className="inline-flex items-center justify-center w-12 h-12 mb-4">
+                    {Icon ? <Icon className="w-full h-full transition-transform duration-300 group-hover:scale-110" /> : null}
+                  </span>
+                  <span className="font-display font-bold text-coal text-base tracking-tight">{s.title}</span>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-coal/0 group-hover:text-brand transition-colors duration-300">
+                    Learn more
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              );
+            })}
+
+            {/* contact anchor card to fill the 8th cell */}
+            <Link
+              href="/contact"
+              className="group relative flex flex-col justify-between rounded-2xl bg-brand p-5 lg:p-6 overflow-hidden"
+            >
+              <span aria-hidden="true" className="pointer-events-none absolute -top-10 -right-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+              <span className="relative spec text-white/70">Free Estimate</span>
+              <span className="relative font-display font-bold text-white text-lg tracking-tight leading-tight mt-3">
+                Talk to a real person
+              </span>
+              <span className="relative mt-4 inline-flex items-center gap-1.5 font-display font-bold text-white text-sm">
+                Get started
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ FINAL CTA ════════════════════ */}
+      <section className="relative surface-brand overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-black/10 blur-3xl" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24 text-center">
+          <Reveal>
+            <span className="spec text-white/70 mb-5 block">Still Have a Question?</span>
+            <h2 className="font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              We&apos;re happy to help.
+            </h2>
+            <p className="text-white/85 text-base lg:text-lg leading-relaxed mt-6 max-w-2xl mx-auto">
+              Call us — a real person answers — or request a free estimate and
+              we&apos;ll walk you through it, no pressure.
+            </p>
+            <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="tel:7329560411" className="btn btn-bone">
+                <Phone className="w-4 h-4" />
+                Call {PHONE}
+              </a>
+              <Link href="/contact" className="btn btn-ink">
+                Get Free Estimate
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <p className="spec text-white/60 mt-8">
+              NJ Lic #{LICENSE} · Licensed &amp; Insured · All 21 Counties
+            </p>
+          </Reveal>
         </div>
       </section>
 

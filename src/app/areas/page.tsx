@@ -6,7 +6,7 @@ import InlineEstimateForm from "@/components/InlineEstimateForm";
 import NJServiceMap from "@/components/NJServiceMap";
 import AreasGrid from "@/components/AreasGrid";
 import { PHONE } from "@/lib/seo-data";
-import { ArrowRight, Phone, ShieldCheck } from "@/components/icons";
+import { ArrowRight, Phone } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Service Areas",
@@ -107,54 +107,34 @@ export default function AreasPage() {
             </Reveal>
           </div>
         </div>
-
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
       </section>
 
-      {/* ════════════════════ STATEWIDE MAP ════════════════════ */}
-      <section className="relative surface-ink overflow-hidden">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 tex-blueprint opacity-50 tex-fade-top" />
+      {/* ════════════════════ STATEWIDE MAP + DIRECTORY ════════════════════ */}
+      <section id="counties" className="relative bg-cement overflow-hidden scroll-mt-24">
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
-          <Reveal className="text-center mb-10 lg:mb-12">
-            <span className="kicker kicker-center mb-5">Statewide Coverage</span>
-            <h2 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+          <Reveal className="max-w-2xl mb-10 lg:mb-14">
+            <span className="kicker mb-5">Statewide Coverage</span>
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
               From the Hudson to <span className="text-brand">the Shore.</span>
-            </h2>
-            <p className="text-bone/65 text-base lg:text-lg leading-relaxed mt-5 max-w-xl mx-auto">
-              One licensed New Jersey crew, every county on the map — with a home
-              base in Passaic, Bergen, Essex, and Morris.
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <NJServiceMap />
-          </Reveal>
-
-          <Reveal delay={200} className="flex items-center justify-center gap-2 mt-10 text-bone/70">
-            <ShieldCheck className="w-4 h-4 text-brand" />
-            <span className="text-sm">NJ Licensed &amp; Insured · Owner-Supervised on every job</span>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ════════════════════ ALL COUNTIES ════════════════════ */}
-      <section id="counties" className="scroll-mt-24">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-          <Reveal className="max-w-2xl mb-12 lg:mb-16">
-            <span className="kicker mb-5">All New Jersey Counties</span>
-            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.0] tracking-tight">
-              Find your{" "}
-              <span className="text-brand">town.</span>
             </h2>
             <div className="svc-rule w-24 mt-7 mb-6" />
             <p className="text-ash text-base lg:text-lg leading-relaxed">
-              Search for your town or filter by the work you need, then open a
-              local page tuned to your area — pricing, photos, and answers for
-              your county.
+              One licensed New Jersey crew, every county on the map. Search for
+              your town or filter by the work you need, then open a local page
+              tuned to your area.
             </p>
           </Reveal>
 
-          <AreasGrid counties={counties} />
+          {/* sticky NJ map (left) + searchable directory (right) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-start">
+            <Reveal className="lg:sticky lg:top-28">
+              <NJServiceMap light mapOnly />
+            </Reveal>
+
+            <Reveal delay={120}>
+              <AreasGrid counties={counties} />
+            </Reveal>
+          </div>
         </div>
       </section>
 

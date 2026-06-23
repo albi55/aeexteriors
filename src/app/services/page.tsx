@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import FAQ from "@/components/FAQ";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
 import { services as seoServices, PHONE, LICENSE } from "@/lib/seo-data";
 import {
@@ -10,6 +11,8 @@ import {
   Phone,
   Check,
   ShieldCheck,
+  Bolt,
+  MapPin,
   serviceIcons,
 } from "@/components/icons";
 
@@ -32,6 +35,74 @@ const cards = seoServices.map((s, i) => ({
   num: String(i + 1).padStart(2, "0"),
   feature: i === 0, // masonry → wide feature card
 }));
+
+/* How we work — four honest steps */
+const steps = [
+  {
+    t: "Free On-Site Estimate",
+    d: "We walk the project with you, explain exactly what needs doing and why, then hand you a clear written quote — no obligation, no pressure.",
+  },
+  {
+    t: "Straight Game Plan",
+    d: "You get an honest scope, the right materials for NJ's freeze-thaw seasons, and a realistic timeline. No surprises once we start.",
+  },
+  {
+    t: "Owner-Supervised Work",
+    d: "Our own crew does the job — never subcontractors — with the owner overseeing every project from first cut to final detail.",
+  },
+  {
+    t: "Clean Finish & Stand-Behind",
+    d: "We leave your property spotless, walk the finished work with you, and stand behind every job long after we pack up.",
+  },
+];
+
+/* Why homeowners pick us */
+const reasons = [
+  {
+    Icon: ShieldCheck,
+    t: "Licensed & Insured",
+    d: `Fully covered in New Jersey — Lic #${LICENSE}. Proof of coverage on request, every time.`,
+  },
+  {
+    Icon: Check,
+    t: "No Subcontractors",
+    d: "One accountable crew handles your whole exterior — so quality and responsibility never get passed off.",
+  },
+  {
+    Icon: Bolt,
+    t: "Fast Response",
+    d: "Usually same-day replies, prompt scheduling, and priority for active leaks and storm damage.",
+  },
+  {
+    Icon: MapPin,
+    t: "All 21 Counties",
+    d: "A locally owned NJ contractor serving the entire state — from the Hudson down to the Shore.",
+  },
+];
+
+/* Service-focused FAQ */
+const faqs = [
+  {
+    q: "Can you handle more than one service at once?",
+    a: "Yes — that's the whole point. One crew can tackle your roof, siding, gutters, masonry and more on a single project, with one estimate and one point of contact. No juggling multiple contractors or finger-pointing when something overlaps.",
+  },
+  {
+    q: "Do you offer free estimates on every service?",
+    a: "Always. Every service we offer starts with a free, no-obligation on-site estimate. We assess the work, explain your options, and give you a clear written quote — whether it's a single repair or a full exterior.",
+  },
+  {
+    q: "Are you licensed and insured for all this work?",
+    a: `Yes. A&E Exteriors LLC is fully licensed (NJ Lic #${LICENSE}) and insured across every trade we offer. You're protected on every project, and we're happy to provide proof of coverage on request.`,
+  },
+  {
+    q: "How soon can you start my project?",
+    a: "We respond fast — usually the same day — and schedule promptly. For emergencies like active leaks or storm damage, reach out right away and we'll prioritize you.",
+  },
+  {
+    q: "Do you use subcontractors for any of these services?",
+    a: "No. Every service is handled by our own crew and personally supervised by the owner from start to finish — so quality and accountability stay consistent across every trade.",
+  },
+];
 
 export default function ServicesPage() {
   return (
@@ -230,6 +301,155 @@ export default function ServicesPage() {
               </div>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ HOW WE WORK ════════════════════ */}
+      <section className="relative surface-ink overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 tex-blueprint opacity-50 tex-fade-top" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <Reveal className="max-w-2xl mb-12 lg:mb-16">
+            <span className="kicker mb-5 !bg-white/10 !text-bone">How We Work</span>
+            <h2 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              The same honest process,{" "}
+              <span className="text-ember">every service.</span>
+            </h2>
+            <p className="text-bone/65 text-base lg:text-lg leading-relaxed mt-6">
+              Whether it&apos;s a single repair or your whole exterior, the way
+              we treat your home never changes.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-steel rounded-3xl overflow-hidden border border-steel">
+            {steps.map((step, i) => (
+              <Reveal key={step.t} delay={i * 80}>
+                <div className="group relative flex h-full min-h-[16rem] flex-col bg-coal p-7 lg:p-8 transition-colors duration-300 hover:bg-char">
+                  <span className="ghost-num text-bone/15 text-6xl lg:text-7xl mb-6 block">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="font-display font-bold text-bone text-xl lg:text-2xl tracking-tight mb-3">
+                    {step.t}
+                  </h3>
+                  <p className="text-bone/60 text-sm leading-relaxed">{step.d}</p>
+                  <span aria-hidden="true" className="mt-auto pt-6 h-px w-10 bg-ember transition-all duration-300 group-hover:w-20" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={120} className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
+            <Link href="/contact" className="btn btn-red">
+              Get Your Free Estimate
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="tel:7329560411" className="btn btn-outline-bone">
+              <Phone className="w-4 h-4" />
+              {PHONE}
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════ WHY US ════════════════════ */}
+      <section className="relative overflow-hidden bg-concrete tex-grain">
+        <div className="pointer-events-none absolute inset-0 z-0 tex-blueprint-dark tex-fade-top opacity-[0.45]" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+
+            {/* left — heading + reassurance */}
+            <Reveal className="lg:col-span-5">
+              <span className="kicker mb-5">Why A&amp;E</span>
+              <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.02] tracking-tight">
+                One contractor.
+                <br />
+                <span className="text-brand">Every layer covered.</span>
+              </h2>
+              <span className="block h-px w-16 bg-brand mt-7 mb-6" />
+              <p className="text-ash text-base lg:text-lg leading-relaxed mb-8">
+                Most exterior problems aren&apos;t isolated — a leaky roof, failing
+                gutters, and water in the basement are often the same story. We
+                see the whole picture and fix it the right way, with one crew you
+                can hold accountable.
+              </p>
+              <Link href="/about" className="btn btn-ink">
+                More About Us
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Reveal>
+
+            {/* right — reason pillars */}
+            <Reveal delay={120} className="lg:col-span-7">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
+                {reasons.map(({ Icon, t, d }) => (
+                  <li key={t} className="border-t border-line pt-5">
+                    <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brand text-white shadow-soft mb-4">
+                      <Icon className="w-6 h-6" />
+                    </span>
+                    <h3 className="font-display text-coal text-lg font-bold mb-2 tracking-tight">{t}</h3>
+                    <p className="text-ash text-sm leading-relaxed">{d}</p>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ FAQ ════════════════════ */}
+      <section className="bg-concrete">
+        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 pt-0 pb-16 lg:pb-24">
+          <Reveal className="mb-10 lg:mb-12 text-center">
+            <span className="kicker kicker-center mb-5">FAQ</span>
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              Questions about our <span className="text-brand">services</span>
+            </h2>
+            <p className="text-ash text-base lg:text-lg leading-relaxed mt-5 max-w-xl mx-auto">
+              Straight answers about how we work, what&apos;s covered, and what
+              to expect.
+            </p>
+          </Reveal>
+          <Reveal delay={100}>
+            <FAQ items={faqs} />
+            <p className="text-ash text-sm mt-10 text-center">
+              Still have questions?{" "}
+              <a href="tel:7329560411" className="text-brand font-semibold link-underline">Call {PHONE}</a> — we&apos;re happy to help.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════ FINAL CTA ════════════════════ */}
+      <section className="relative surface-brand overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-black/10 blur-3xl" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24 text-center">
+          <Reveal>
+            <span className="spec text-white/70 mb-5 block">Free · No Obligation</span>
+            <h2 className="font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              Ready to get it handled?
+            </h2>
+            <p className="text-white/85 text-base lg:text-lg leading-relaxed mt-6 max-w-2xl mx-auto">
+              Tell us what&apos;s going on with your home and we&apos;ll give you
+              a straight answer and a free written estimate — no pressure, no
+              surprises.
+            </p>
+            <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/contact" className="btn btn-bone">
+                Request Free Estimate
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a href="tel:7329560411" className="btn btn-ink">
+                <Phone className="w-4 h-4" />
+                Call {PHONE}
+              </a>
+            </div>
+            <p className="spec text-white/60 mt-8">
+              NJ Lic #{LICENSE} · Licensed &amp; Insured · All 21 Counties
+            </p>
+          </Reveal>
         </div>
       </section>
 

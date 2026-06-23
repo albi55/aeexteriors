@@ -36,6 +36,7 @@ function Highlight({ text, q }: { text: string; q: string }) {
 export default function AreasGrid({ counties }: { counties: County[] }) {
   const [query, setQuery] = useState("");
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const cityToSlug = (city: string) => city.toLowerCase().replace(/\s+/g, "-");
   const getCityHref = (city: string) => {
@@ -54,7 +55,15 @@ export default function AreasGrid({ counties }: { counties: County[] }) {
     [counties, q]
   );
 
-  const totalMatches = useMemo(() => filtered.reduce((n, c) => n + c.matched.length, 0), [filtered]);
+  /* When searching, never hide a match behind the toggle — show every matching
+     county. Otherwise default to the primary counties and let "Show all" reveal
+     the rest. */
+  const collapsible = !q;
+  const collapsed = collapsible && !showAll;
+  const visible = collapsed ? filtered.filter((c) => c.primary) : filtered;
+  const hiddenCount = filtered.length - filtered.filter((c) => c.primary).length;
+
+  const totalMatches = useMemo(() => visible.reduce((n, c) => n + c.matched.length, 0), [visible]);
 
   const filters: { slug: string | null; label: string }[] = [
     { slug: null, label: "All Towns" },
@@ -64,21 +73,24 @@ export default function AreasGrid({ counties }: { counties: County[] }) {
   return (
     <>
       {/* ── Search ── */}
-      <div className="relative mb-5">
-        <span className="field-wrap block">
-          <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <div className="group relative mb-5">
+        <span
+          className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-stone transition-colors group-focus-within:text-brand"
+          aria-hidden="true"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="7" />
             <path d="m21 21-4.3-4.3" />
           </svg>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Find your town…"
-            aria-label="Search for your town"
-            className="field !py-4 !text-base !pr-12"
-          />
         </span>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Find your town…"
+          aria-label="Search for your town"
+          className="town-search w-full rounded-full bg-bone border border-line shadow-soft text-coal text-base placeholder:text-stone pl-[3.25rem] pr-12 py-4 outline-none transition-all duration-200 hover:border-stone/50"
+        />
         {query && (
           <button
             type="button"
@@ -124,11 +136,11 @@ export default function AreasGrid({ counties }: { counties: County[] }) {
 
       {/* ── Directory ── */}
       {filtered.length > 0 ? (
-        <div className="rounded-2xl border border-line bg-bone overflow-hidden divide-y divide-line">
-          {filtered.map((county) => (
+        <div className="divide-y divide-line">
+          {visible.map((county) => (
             <div
               key={county.name}
-              className="grid grid-cols-1 md:grid-cols-[210px_1fr] gap-x-8 gap-y-3.5 px-6 lg:px-7 py-5 lg:py-6 hover:bg-concrete/60 transition-colors"
+              className="grid grid-cols-1 md:grid-cols-[210px_1fr] gap-x-8 gap-y-3.5 py-5 lg:py-6"
             >
               <div className="flex md:flex-col items-center md:items-start justify-between gap-2 md:gap-1.5">
                 <h3 className="font-display font-bold text-coal text-lg tracking-tight">{county.name}</h3>
@@ -158,13 +170,38 @@ export default function AreasGrid({ counties }: { counties: County[] }) {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-line bg-bone px-6 py-16 text-center">
+        <div className="py-16 text-center">
           <p className="font-display font-bold text-coal text-xl tracking-tight">
             No towns match &ldquo;{query}&rdquo;
           </p>
           <p className="text-ash text-sm mt-2.5 max-w-sm mx-auto">
             We may still serve your area — give us a call and we&apos;ll let you know.
           </p>
+        </div>
+      )}
+
+      {/* ── Show all / fewer toggle (only when browsing, not searching) ── */}
+      {collapsible && hiddenCount > 0 && (
+        <div className="mt-9 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((v) => !v)}
+            aria-expanded={showAll}
+            className="group inline-flex items-center gap-2.5 rounded-full bg-bone border-2 border-line px-6 py-3 font-display font-semibold text-sm text-coal hover:border-brand/50 hover:text-brand transition-all duration-200"
+          >
+            {showAll ? "Show fewer counties" : `Show all 21 counties`}
+            {!showAll && (
+              <span className="inline-flex items-center justify-center rounded-full bg-brand/10 text-brand text-[0.6rem] font-bold px-2 py-0.5">
+                +{hiddenCount}
+              </span>
+            )}
+            <svg
+              className={`w-4 h-4 transition-transform duration-300 ${showAll ? "rotate-180" : ""}`}
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </div>
       )}
 

@@ -462,7 +462,7 @@ export default async function HomePage() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 tex-blueprint opacity-50 tex-fade-top" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
-          <Reveal className="text-center mb-10 lg:mb-12">
+          <Reveal className="relative z-10 text-center mb-10 lg:mb-12">
             <span className="kicker kicker-center mb-5">Where We Work</span>
             <h2 className="font-display font-bold text-bone text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
               Proudly based in <span className="text-brand">New Jersey</span>
