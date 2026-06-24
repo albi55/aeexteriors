@@ -55,9 +55,12 @@ export default function FAQ({ items }: { items: QA[] }) {
 
             <div className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
               <div className="overflow-hidden">
-                <p className="text-ash text-sm lg:text-base leading-relaxed max-w-3xl pl-5 sm:pl-[4.25rem] pr-5 sm:pr-7 pb-6">
-                  {item.a}
-                </p>
+                <div className="pl-5 sm:pl-[4.25rem] pr-5 sm:pr-7 pb-6">
+                  <span aria-hidden="true" className="block h-px w-full bg-line mb-4" />
+                  <p className="text-ash text-sm lg:text-base leading-relaxed max-w-3xl">
+                    {item.a}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

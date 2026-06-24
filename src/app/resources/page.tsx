@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import FAQ from "@/components/FAQ";
 import { PHONE, SITE_URL, BUSINESS_NAME, LICENSE } from "@/lib/seo-data";
@@ -99,13 +100,13 @@ const seasonalTips = [
 ];
 
 const serviceLinks = [
-  { slug: "masonry", title: "Masonry" },
-  { slug: "roofing", title: "Roofing" },
-  { slug: "siding", title: "Siding" },
-  { slug: "gutters", title: "Gutters" },
-  { slug: "chimneys", title: "Chimneys" },
-  { slug: "foundation", title: "Foundation" },
-  { slug: "waterproofing", title: "Waterproofing" },
+  { slug: "masonry", title: "Masonry", blurb: "Brick, block & stone repair, repointing, and full rebuilds." },
+  { slug: "roofing", title: "Roofing", blurb: "Tear-offs, new roofs, leak repairs, and flashing done right." },
+  { slug: "siding", title: "Siding", blurb: "Vinyl, fiber cement & wrap that seals and lifts curb appeal." },
+  { slug: "gutters", title: "Gutters", blurb: "Seamless gutters, guards, and downspouts that move water away." },
+  { slug: "chimneys", title: "Chimneys", blurb: "Crown repair, relining, caps, and safe, draft-free rebuilds." },
+  { slug: "foundation", title: "Foundation", blurb: "Crack repair, parging, and structural fixes that hold." },
+  { slug: "waterproofing", title: "Waterproofing", blurb: "Interior & exterior systems that keep basements dry for good." },
 ];
 
 const allFaqs = [...quickAnswers, ...categories.flatMap((c) => c.items)];
@@ -137,7 +138,21 @@ export default function ResourcesPage() {
 
       {/* ════════════════════ HERO ════════════════════ */}
       <section className="relative surface-ink overflow-hidden">
-        <div className="absolute inset-0 tex-blueprint opacity-50 tex-fade-top pointer-events-none" aria-hidden="true" />
+        {/* showcase photo background */}
+        <div className="absolute inset-0">
+          <Image
+            src="/showcase/home.png"
+            alt="Luxury New Jersey home with stone masonry, siding, and a new roof by A&E Exteriors LLC"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        {/* dark overlays keep the copy legible over the photo */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/80 to-ink/45" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-transparent to-ink/40" aria-hidden="true" />
+        <div className="absolute inset-0 tex-blueprint opacity-30 tex-fade-top pointer-events-none" aria-hidden="true" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
@@ -185,56 +200,42 @@ export default function ResourcesPage() {
             </Reveal>
           </div>
         </div>
-
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
-      </section>
-
-      {/* ════════════════════ TOPIC JUMP NAV ════════════════════ */}
-      <section className="bg-bone/95 backdrop-blur border-b border-line sticky top-16 lg:top-20 z-30">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-          <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar py-4" aria-label="Resource topics">
-            <span className="spec text-stone flex-shrink-0 mr-2 hidden sm:inline">Jump to</span>
-            {categories.map((cat) => (
-              <a
-                key={cat.id}
-                href={`#${cat.id}`}
-                className="flex-shrink-0 inline-flex items-center rounded-full border border-line bg-concrete px-4 py-2 font-display font-semibold text-sm text-coal/75 hover:border-brand/50 hover:text-brand transition-colors"
-              >
-                {cat.name}
-              </a>
-            ))}
-            <a
-              href="#checklist"
-              className="flex-shrink-0 inline-flex items-center rounded-full border border-line bg-concrete px-4 py-2 font-display font-semibold text-sm text-coal/75 hover:border-brand/50 hover:text-brand transition-colors"
-            >
-              Hiring Checklist
-            </a>
-          </nav>
-        </div>
       </section>
 
       {/* ════════════════════ QUICK ANSWERS ════════════════════ */}
       <section id="quick" className="scroll-mt-40 bg-concrete">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
-          <Reveal className="max-w-2xl mb-10 lg:mb-12">
-            <span className="kicker mb-5">Quick Answers</span>
-            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
-              The short version
-            </h2>
-            <div className="svc-rule w-24 mt-7" />
+          <Reveal className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 lg:mb-14">
+            <div className="max-w-2xl">
+              <span className="kicker mb-5">Quick Answers</span>
+              <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+                The short version
+              </h2>
+              <div className="svc-rule w-24 mt-7" />
+            </div>
+            <p className="text-ash text-sm leading-relaxed max-w-xs sm:text-right">
+              The four things homeowners ask first — answered in a sentence. Full
+              detail is in the topics below.
+            </p>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
             {quickAnswers.map((qa, i) => (
               <Reveal key={qa.q} delay={Math.min(i * 70, 210)}>
-                <div className="group h-full rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30">
-                  <div className="flex items-start gap-3.5 mb-3">
-                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand/10 text-brand flex-shrink-0">
+                <div className="group relative h-full overflow-hidden rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30">
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-4 right-5 font-display font-bold text-5xl tabular-nums text-coal/[0.04] group-hover:text-brand/10 transition-colors duration-300 select-none"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="relative flex items-start gap-3.5 mb-3">
+                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand/10 text-brand flex-shrink-0 transition-colors duration-300 group-hover:bg-brand group-hover:text-white">
                       <Bolt className="w-5 h-5" />
                     </span>
                     <h3 className="font-display font-bold text-coal text-lg leading-snug tracking-tight pt-1">{qa.q}</h3>
                   </div>
-                  <p className="text-ash text-sm leading-relaxed pl-[3.125rem]">{qa.a}</p>
+                  <p className="relative text-ash text-sm leading-relaxed pl-[3.125rem]">{qa.a}</p>
                 </div>
               </Reveal>
             ))}
@@ -243,18 +244,45 @@ export default function ResourcesPage() {
       </section>
 
       {/* ════════════════════ CATEGORIES ════════════════════ */}
-      <section className="bg-concrete pb-4">
-        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-col gap-16 lg:gap-24">
+      <section className="bg-concrete pb-12 lg:pb-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-col gap-16 lg:gap-28">
           {categories.map((cat, i) => (
-            <div key={cat.id} id={cat.id} className="scroll-mt-40">
-              <Reveal className="mb-8 lg:mb-10">
-                <span className="spec text-brand mb-4 block">{String(i + 1).padStart(2, "0")} · Topic</span>
-                <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
-                  {cat.name}
-                </h2>
-                <p className="text-ash text-base lg:text-lg leading-relaxed mt-4 max-w-xl">{cat.blurb}</p>
+            <div
+              key={cat.id}
+              id={cat.id}
+              className="scroll-mt-40 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
+            >
+              {/* sticky topic panel */}
+              <Reveal className="lg:col-span-4">
+                <div className="lg:sticky lg:top-32">
+                  <div className="relative pl-6">
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-full bg-brand"
+                    />
+                    <span className="spec text-brand block mb-3">
+                      {String(i + 1).padStart(2, "0")} · Topic
+                    </span>
+                    <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.02] tracking-tight">
+                      {cat.name}
+                    </h2>
+                    <p className="text-ash text-base leading-relaxed mt-4 max-w-sm">
+                      {cat.blurb}
+                    </p>
+                    <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-bone border border-line px-3.5 py-1.5 shadow-soft">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand/10 text-brand font-display font-bold text-xs tabular-nums">
+                        {cat.items.length}
+                      </span>
+                      <span className="spec text-stone">
+                        {cat.items.length === 1 ? "Question" : "Questions"}
+                      </span>
+                    </span>
+                  </div>
+                </div>
               </Reveal>
-              <Reveal delay={80}>
+
+              {/* accordion */}
+              <Reveal delay={80} className="lg:col-span-8">
                 <FAQ items={cat.items} />
               </Reveal>
             </div>
@@ -318,10 +346,17 @@ export default function ResourcesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
             {seasonalTips.map((tip, i) => (
               <Reveal key={tip.season} delay={Math.min(i * 70, 210)}>
-                <div className="h-full rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7">
-                  <span className="spec text-brand mb-4 block">{String(i + 1).padStart(2, "0")} · {tip.season}</span>
-                  <h3 className="font-display font-bold text-coal text-xl tracking-tight mb-3">{tip.season}</h3>
-                  <p className="text-ash text-sm leading-relaxed">{tip.d}</p>
+                <div className="group relative h-full overflow-hidden rounded-2xl bg-bone border border-line shadow-soft p-6 lg:p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30 hover:-translate-y-1">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-3 -right-1 font-display font-bold text-[5.5rem] leading-none tabular-nums text-coal/[0.04] group-hover:text-brand/10 transition-colors duration-300 select-none"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span aria-hidden="true" className="absolute top-0 left-6 right-6 h-1 rounded-b-full bg-brand/0 group-hover:bg-brand/60 transition-colors duration-300" />
+                  <span className="relative spec text-brand mb-4 block">Season {String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="relative font-display font-bold text-coal text-xl tracking-tight mb-3">{tip.season}</h3>
+                  <p className="relative text-ash text-sm leading-relaxed">{tip.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -361,6 +396,7 @@ export default function ResourcesPage() {
                     {Icon ? <Icon className="w-full h-full transition-transform duration-300 group-hover:scale-110" /> : null}
                   </span>
                   <span className="font-display font-bold text-coal text-base tracking-tight">{s.title}</span>
+                  <span className="mt-2 text-ash text-sm leading-relaxed">{s.blurb}</span>
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-coal/0 group-hover:text-brand transition-colors duration-300">
                     Learn more
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -378,6 +414,9 @@ export default function ResourcesPage() {
               <span className="relative spec text-white/70">Free Estimate</span>
               <span className="relative font-display font-bold text-white text-lg tracking-tight leading-tight mt-3">
                 Talk to a real person
+              </span>
+              <span className="relative mt-2 text-white/80 text-sm leading-relaxed">
+                No call centers — reach the crew that does the work and get honest answers.
               </span>
               <span className="relative mt-4 inline-flex items-center gap-1.5 font-display font-bold text-white text-sm">
                 Get started
@@ -413,9 +452,6 @@ export default function ResourcesPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <p className="spec text-white/60 mt-8">
-              NJ Lic #{LICENSE} · Licensed &amp; Insured · All 21 Counties
-            </p>
           </Reveal>
         </div>
       </section>
