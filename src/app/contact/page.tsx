@@ -70,70 +70,51 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/30" aria-hidden="true" />
         <div className="absolute inset-0 tex-blueprint opacity-25 tex-fade-top pointer-events-none" aria-hidden="true" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-48 pb-28 lg:pb-40">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            <div className="lg:col-span-7">
-              {/* breadcrumb */}
-              <nav className="flex items-center gap-2.5 spec text-bone/45 mb-7">
-                <Link href="/" className="hover:text-brand transition-colors">Home</Link>
-                <span className="text-bone/25">/</span>
-                <span className="text-brand">Contact</span>
-              </nav>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-28">
+          <div className="max-w-3xl">
+            {/* breadcrumb */}
+            <nav className="flex items-center gap-2.5 spec text-bone/45 mb-7">
+              <Link href="/" className="hover:text-brand transition-colors">Home</Link>
+              <span className="text-bone/25">/</span>
+              <span className="text-brand">Contact</span>
+            </nav>
 
-              <div className="mb-7">
-                <span className="kicker !bg-white/10 !text-bone">Get In Touch · New Jersey</span>
-              </div>
-
-              <h1 className="font-display font-bold text-bone text-5xl sm:text-6xl lg:text-[4.5rem] leading-[0.95] tracking-tight mb-6">
-                Let&apos;s talk about your <span className="text-brand">project.</span>
-              </h1>
-              <p className="text-bone/70 text-lg lg:text-xl max-w-xl mb-9 leading-relaxed">
-                Get a free, no-obligation estimate from a New Jersey licensed contractor.
-                Call us or send the form — a real person from our own crew responds within
-                24 hours. No phone trees, no call centers, no pressure.
-              </p>
-
-              <div className="flex flex-wrap gap-3 mb-10">
-                <a href="tel:7329560411" className="btn btn-red">
-                  <Phone className="w-4 h-4" />
-                  Call {PHONE}
-                </a>
-                <a href={`mailto:${EMAIL}`} className="btn btn-outline-bone">
-                  <Mail className="w-4 h-4" />
-                  Email Us
-                </a>
-              </div>
-
-              <ul className="flex flex-wrap items-center gap-2.5">
-                {[
-                  { Icon: ShieldCheck, t: `NJ Licensed #${LICENSE}` },
-                  { Icon: Check, t: "Fully Insured" },
-                  { Icon: Star, t: "Free Estimates" },
-                ].map(({ Icon: TrustIcon, t }) => (
-                  <li key={t} className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] ring-1 ring-white/10 backdrop-blur-sm px-4 py-2 text-bone/85 text-sm font-medium">
-                    <TrustIcon className="w-4 h-4 text-brand" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
+            <div className="mb-7">
+              <span className="kicker !bg-white/10 !text-bone">Get In Touch · New Jersey</span>
             </div>
 
-            {/* floating glass form card */}
-            <Reveal delay={80} className="lg:col-span-5">
-              <div className="lg:-mb-28 rounded-[var(--radius-lg)] border border-steel/80 bg-char/95 backdrop-blur-sm shadow-[0_40px_80px_-30px_rgba(0,0,0,0.85)] ring-1 ring-white/10 overflow-hidden">
-                <div className="h-1 w-full bg-brand" aria-hidden="true" />
-                <div className="p-7 sm:p-8">
-                  <span className="kicker !bg-white/10 !text-bone mb-4">Free Estimate</span>
-                  <h2 className="font-display font-bold text-bone text-2xl sm:text-3xl leading-tight tracking-tight mb-2">
-                    Request a quote
-                  </h2>
-                  <p className="text-bone/55 text-sm mb-7">
-                    Tell us about your project — we respond within 24 hours.
-                  </p>
-                  <ContactForm tone="dark" />
-                </div>
-              </div>
-            </Reveal>
+            <h1 className="font-display font-bold text-bone text-5xl sm:text-6xl lg:text-[4.5rem] leading-[0.95] tracking-tight mb-6">
+              Let&apos;s talk about your <span className="text-brand">project.</span>
+            </h1>
+            <p className="text-bone/70 text-lg lg:text-xl max-w-xl mb-9 leading-relaxed">
+              Get a free, no-obligation estimate from a New Jersey licensed contractor.
+              Call us or send the form below — a real person from our own crew responds
+              within 24 hours. No phone trees, no call centers, no pressure.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-10">
+              <a href="tel:7329560411" className="btn btn-red">
+                <Phone className="w-4 h-4" />
+                Call {PHONE}
+              </a>
+              <a href={`mailto:${EMAIL}`} className="btn btn-outline-bone">
+                <Mail className="w-4 h-4" />
+                Email Us
+              </a>
+            </div>
+
+            <ul className="flex flex-wrap items-center gap-2.5">
+              {[
+                { Icon: ShieldCheck, t: `NJ Licensed #${LICENSE}` },
+                { Icon: Check, t: "Fully Insured" },
+                { Icon: Star, t: "Free Estimates" },
+              ].map(({ Icon: TrustIcon, t }) => (
+                <li key={t} className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] ring-1 ring-white/10 backdrop-blur-sm px-4 py-2 text-bone/85 text-sm font-medium">
+                  <TrustIcon className="w-4 h-4 text-brand" />
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
