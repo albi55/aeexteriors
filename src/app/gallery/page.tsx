@@ -121,9 +121,6 @@ export default function GalleryPage() {
             </Reveal>
           </div>
         </div>
-
-        {/* slim solid accent bar at base (flat color) */}
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
       </section>
 
       {/* ════════════════════ GALLERY ════════════════════ */}

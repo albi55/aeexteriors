@@ -7,7 +7,8 @@ import FAQ from "@/components/FAQ";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
 import { getCityServiceContent, getAllCityServiceParams } from "@/lib/city-service-content";
 import { services, SITE_URL, BUSINESS_NAME, PHONE, PHONE_LINK, ADDRESS, LICENSE } from "@/lib/seo-data";
-import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, serviceIcons } from "@/components/icons";
+import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, Quote, serviceIcons } from "@/components/icons";
+import { processSteps, benefits } from "@/lib/service-page-content";
 
 export async function generateStaticParams() {
   return getAllCityServiceParams();
@@ -176,7 +177,25 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
+      </section>
+
+      {/* ════════════════════ STAT STRIP ════════════════════ */}
+      <section className="surface-brand">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-8 lg:py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {[
+              { v: `#${LICENSE}`, l: "NJ License" },
+              { v: data.city, l: "Local Crew" },
+              { v: "100%", l: "Own Crew, No Subs" },
+              { v: "Free", l: "On-Site Estimates" },
+            ].map((s) => (
+              <div key={s.l} className="text-center lg:text-left">
+                <div className="font-display font-bold text-white text-2xl lg:text-3xl tracking-tight leading-none mb-1.5 break-words">{s.v}</div>
+                <div className="spec text-white/70">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ════════════════════ CONTENT ════════════════════ */}
@@ -218,6 +237,70 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      {/* ════════════════════ PROCESS ════════════════════ */}
+      <section className="bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <Reveal className="max-w-2xl mb-12 lg:mb-16">
+            <span className="kicker mb-5">How We Work</span>
+            <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
+              Your {lc} project in {data.city},{" "}
+              <span className="text-brand">step by step.</span>
+            </h2>
+            <p className="text-ash text-base lg:text-lg leading-relaxed mt-5">
+              No surprises, no runaround. Here&apos;s exactly what to expect from
+              the first phone call to the final walkthrough.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {processSteps.map((step, i) => (
+              <Reveal key={step.n} delay={Math.min(i * 80, 240)}>
+                <div className="group relative h-full overflow-hidden rounded-2xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30 hover:-translate-y-1">
+                  <span aria-hidden="true" className="absolute -top-3 right-2 font-display font-bold text-[5.5rem] leading-none tabular-nums text-coal/[0.04] group-hover:text-brand/10 transition-colors duration-300 select-none">
+                    {step.n}
+                  </span>
+                  <span className="relative inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brand text-white font-display font-bold mb-5">
+                    {step.n}
+                  </span>
+                  <h3 className="relative font-display font-bold text-coal text-lg tracking-tight mb-2">{step.t}</h3>
+                  <p className="relative text-ash text-sm leading-relaxed">{step.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ WHY US (BENEFITS) ════════════════════ */}
+      <section className="surface-ink relative overflow-hidden">
+        <div className="absolute inset-0 tex-blueprint opacity-40 pointer-events-none" aria-hidden="true" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <Reveal className="max-w-2xl mb-12 lg:mb-16">
+            <span className="kicker mb-5 !bg-white/10 !text-bone">Why {BUSINESS_NAME}</span>
+            <h2 className="font-display font-bold text-bone text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
+              Why {data.city} homeowners{" "}
+              <span className="text-ember">choose us.</span>
+            </h2>
+            <p className="text-bone/60 text-base lg:text-lg leading-relaxed mt-5">
+              We&apos;re a family-owned New Jersey contractor that treats your
+              home like our own — and your time and money with respect.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+            {benefits.map(({ Icon: BIcon, t, d }, i) => (
+              <Reveal key={t} delay={Math.min(i * 70, 280)}>
+                <div className="group h-full rounded-2xl bg-white/[0.04] border border-steel/70 p-7 transition-all duration-300 hover:bg-white/[0.07] hover:border-brand/40 hover:-translate-y-1">
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand text-white mb-5">
+                    <BIcon className="w-6 h-6" />
+                  </span>
+                  <h3 className="font-display font-bold text-bone text-lg tracking-tight mb-2">{t}</h3>
+                  <p className="text-bone/60 text-sm leading-relaxed">{d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ════════════════════ PROJECT PHOTOS ════════════════════ */}
       {displayImages.length > 1 && (
         <section className="bg-cement">
@@ -250,14 +333,34 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
         </section>
       )}
 
-      {/* ════════ FAQ ════════ */}
+      {/* ════════ QUOTE BANNER ════════ */}
       <section className="bg-bone">
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-16 lg:py-20">
+          <Reveal>
+            <div className="relative rounded-3xl surface-ink overflow-hidden px-8 py-12 lg:px-14 lg:py-14 text-center">
+              <div className="absolute inset-0 tex-blueprint opacity-30 pointer-events-none" aria-hidden="true" />
+              <Quote className="relative w-10 h-10 text-brand mx-auto mb-6" />
+              <p className="relative font-display font-semibold text-bone text-xl sm:text-2xl lg:text-3xl leading-snug tracking-tight max-w-3xl mx-auto">
+                &ldquo;The crew that quotes your {lc} in {data.city} is the crew
+                that does the work — licensed, insured, and local to {data.county}.&rdquo;
+              </p>
+              <p className="relative spec text-bone/55 mt-7">— {BUSINESS_NAME}</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════ FAQ ════════ */}
+      <section className="bg-concrete">
         <div className="max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-24">
           <Reveal className="mb-10">
             <span className="kicker mb-5">FAQ</span>
-            <h2 className="font-display font-bold uppercase text-coal text-3xl sm:text-4xl lg:text-5xl leading-[0.95] tracking-[-0.01em]">
+            <h2 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl leading-[1.02] tracking-tight">
               {data.title} questions in {data.city}
             </h2>
+            <p className="text-ash text-base leading-relaxed mt-4">
+              Straight answers to what {data.city} homeowners ask us most about {lc}.
+            </p>
           </Reveal>
           <Reveal delay={80}>
             <FAQ items={faqs} />

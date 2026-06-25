@@ -225,10 +225,10 @@ export default function Navbar() {
             </div>
 
             {/* Mobile controls */}
-            <div className="lg:hidden flex items-center gap-2">
+            <div className="lg:hidden flex items-center gap-2.5">
               <a
                 href="tel:7329560411"
-                className="inline-flex items-center gap-2 bg-brand text-white font-display uppercase text-xs tracking-[0.06em] px-3.5 py-2.5"
+                className="inline-flex items-center gap-2 h-11 rounded-full bg-brand hover:bg-brand-deep active:scale-95 text-white font-display font-bold text-sm px-4 shadow-[0_8px_20px_-8px_rgba(180,10,10,0.6)] transition-all duration-200"
                 aria-label="Call 732-956-0411"
               >
                 <Phone className="w-4 h-4" />
@@ -239,14 +239,18 @@ export default function Navbar() {
                 onClick={() => setOpen(!open)}
                 aria-label="Toggle menu"
                 aria-expanded={open}
-                className={`inline-flex items-center justify-center w-11 h-11 transition-colors ${
-                  solid ? "bg-coal text-bone" : "bg-bone/10 text-bone ring-1 ring-bone/25 backdrop-blur"
+                className={`inline-flex items-center justify-center w-11 h-11 rounded-full active:scale-95 transition-all duration-200 ${
+                  open
+                    ? "bg-brand text-white shadow-[0_8px_20px_-8px_rgba(180,10,10,0.6)]"
+                    : solid
+                      ? "bg-coal text-bone hover:bg-char"
+                      : "bg-bone/10 text-bone ring-1 ring-bone/25 backdrop-blur hover:bg-bone/15"
                 }`}
               >
                 <span className="flex flex-col gap-1">
-                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`} />
-                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${open ? "opacity-0" : ""}`} />
-                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`} />
+                  <span className={`block w-5 h-0.5 rounded-full bg-current transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`} />
+                  <span className={`block w-5 h-0.5 rounded-full bg-current transition-all duration-300 ${open ? "opacity-0" : ""}`} />
+                  <span className={`block w-5 h-0.5 rounded-full bg-current transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`} />
                 </span>
               </button>
             </div>

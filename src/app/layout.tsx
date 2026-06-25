@@ -3,6 +3,7 @@ import { Montserrat, Barlow, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 
 // Display — clean, modern geometric sans for headlines.
 const montserrat = Montserrat({
@@ -173,6 +174,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );

@@ -65,6 +65,12 @@ export const ArrowRight = ({ className = "w-4 h-4", ...p }: IconProps) =>
 export const ArrowUpRight = ({ className = "w-4 h-4", ...p }: IconProps) =>
   stroke(className, { ...p, strokeWidth: 2.4 } as IconProps, <path d="M7 17L17 7M8 7h9v9" />);
 
+export const ArrowUp = ({ className = "w-4 h-4", ...p }: IconProps) =>
+  stroke(className, { ...p, strokeWidth: 2.4 } as IconProps, <path d="M12 19V5M6 11l6-6 6 6" />);
+
+export const ChevronUp = ({ className = "w-4 h-4", ...p }: IconProps) =>
+  stroke(className, { ...p, strokeWidth: 2.6 } as IconProps, <path d="M5 15l7-7 7 7" />);
+
 export const Check = ({ className = "w-4 h-4", ...p }: IconProps) =>
   stroke(className, { ...p, strokeWidth: 2.6 } as IconProps, <path d="M4 12.5l5 5L20 6" />);
 

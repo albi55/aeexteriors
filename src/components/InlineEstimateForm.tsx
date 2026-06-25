@@ -94,7 +94,7 @@ export default function InlineEstimateForm() {
           </div>
           <div>
             <label htmlFor="ie-service" className="field-label">Service <span className="req">*</span></label>
-            <select id="ie-service" name="service" required value={formData.service} onChange={handleChange} className="field">
+            <select id="ie-service" name="service" required value={formData.service} onChange={handleChange} className="field field-noarrow">
               <option value="">Choose…</option>
               {services.map((s) => (
                 <option key={s} value={s}>{s}</option>

@@ -6,6 +6,7 @@ import Reveal from "@/components/Reveal";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
 import { services, serviceAreas, SITE_URL, BUSINESS_NAME, PHONE, PHONE_LINK, EMAIL, ADDRESS, LICENSE } from "@/lib/seo-data";
 import { ArrowRight, ArrowUpRight, Phone, Check, ShieldCheck, serviceIcons } from "@/components/icons";
+import { processSteps } from "@/lib/service-page-content";
 
 export async function generateStaticParams() {
   return serviceAreas.map((a) => ({ slug: a.slug }));
@@ -164,7 +165,25 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
+      </section>
+
+      {/* ════════════════════ STAT STRIP ════════════════════ */}
+      <section className="surface-brand">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-8 lg:py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {[
+              { v: `#${LICENSE}`, l: "NJ License" },
+              { v: area.county, l: "County Served" },
+              { v: "100%", l: "Own Crew, No Subs" },
+              { v: "Free", l: "On-Site Estimates" },
+            ].map((s) => (
+              <div key={s.l} className="text-center lg:text-left">
+                <div className="font-display font-bold text-white text-2xl lg:text-3xl tracking-tight leading-none mb-1.5 break-words">{s.v}</div>
+                <div className="spec text-white/70">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ════════════════════ SERVICES IN AREA ════════════════════ */}
@@ -214,6 +233,40 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
                 </Reveal>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════ PROCESS ════════════════════ */}
+      <section className="bg-concrete">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
+          <Reveal className="max-w-2xl mb-12 lg:mb-16">
+            <span className="kicker mb-5">How We Work</span>
+            <h2 className="font-display font-bold text-coal text-4xl sm:text-5xl lg:text-6xl leading-[1.0] tracking-tight">
+              From estimate to{" "}
+              <span className="text-brand">final walkthrough.</span>
+            </h2>
+            <div className="svc-rule w-24 mt-7 mb-6" />
+            <p className="text-ash text-base lg:text-lg leading-relaxed">
+              Every project in {area.city} follows the same simple, transparent
+              process — so you always know exactly where things stand.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {processSteps.map((step, i) => (
+              <Reveal key={step.n} delay={Math.min(i * 80, 240)}>
+                <div className="group relative h-full overflow-hidden rounded-2xl bg-bone border border-line shadow-soft p-7 transition-all duration-300 hover:shadow-block hover:border-brand/30 hover:-translate-y-1">
+                  <span aria-hidden="true" className="absolute -top-3 right-2 font-display font-bold text-[5.5rem] leading-none tabular-nums text-coal/[0.04] group-hover:text-brand/10 transition-colors duration-300 select-none">
+                    {step.n}
+                  </span>
+                  <span className="relative inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brand text-white font-display font-bold mb-5">
+                    {step.n}
+                  </span>
+                  <h3 className="relative font-display font-bold text-coal text-lg tracking-tight mb-2">{step.t}</h3>
+                  <p className="relative text-ash text-sm leading-relaxed">{step.d}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
