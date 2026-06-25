@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import CountUp from "@/components/CountUp";
 import FAQ from "@/components/FAQ";
 import InlineEstimateForm from "@/components/InlineEstimateForm";
 import { services as seoServices, PHONE, LICENSE } from "@/lib/seo-data";
@@ -23,18 +24,26 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://aeexteriorsnj.com/services" },
 };
 
-/* Live service data → cards */
+/* Live service data → cards (every card now carries its full detail set) */
 const cards = seoServices.map((s, i) => ({
   slug: s.slug,
   title: s.title,
   tagline: s.tagline,
   image: s.images[0],
   blurb: s.description,
-  included: s.subServices.slice(0, 5),
+  included: s.subServices,
   count: s.subServices.length,
   num: String(i + 1).padStart(2, "0"),
   feature: i === 0, // masonry → wide feature card
 }));
+
+/* Credibility band — the same honest numbers we stand behind site-wide */
+const stats = [
+  { to: 7, suffix: "+", label: "Exterior Trades" },
+  { to: 21, suffix: "", label: "NJ Counties Served" },
+  { to: 0, suffix: "", display: "Zero", label: "Subcontractors" },
+  { to: 100, suffix: "%", label: "Owner-Supervised" },
+];
 
 /* How we work — four honest steps */
 const steps = [
@@ -93,6 +102,10 @@ const faqs = [
   {
     q: "Are you licensed and insured for all this work?",
     a: `Yes. A&E Exteriors LLC is fully licensed (NJ Lic #${LICENSE}) and insured across every trade we offer. You're protected on every project, and we're happy to provide proof of coverage on request.`,
+  },
+  {
+    q: "What materials do you use?",
+    a: "We spec materials rated for New Jersey's climate — architectural asphalt shingles and TPO/EPDM flat systems, James Hardie fiber-cement and premium vinyl siding, seamless aluminum gutters, and freeze-thaw-rated masonry and waterproofing systems. We'll walk you through the exact products for your project during your estimate.",
   },
   {
     q: "How soon can you start my project?",
@@ -167,9 +180,25 @@ export default function ServicesPage() {
             </Reveal>
           </div>
         </div>
+      </section>
 
-        {/* slim solid accent bar at base (flat color) */}
-        <div className="absolute inset-x-0 bottom-0 h-1.5 bg-ember" aria-hidden="true" />
+      {/* ════════════════════ CREDIBILITY BAND ════════════════════ */}
+      <section className="surface-brand relative overflow-hidden">
+        <div className="absolute inset-0 tex-blueprint opacity-30 pointer-events-none" aria-hidden="true" />
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 lg:py-14">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-white/15 lg:divide-y-0">
+            {stats.map((s, i) => (
+              <Reveal key={s.label} delay={i * 90}>
+                <div className="py-6 px-4 lg:px-8 text-center">
+                  <div className="font-display font-bold text-white text-5xl lg:text-6xl leading-none tabular-nums">
+                    <CountUp to={s.to} suffix={s.suffix} display={s.display} />
+                  </div>
+                  <div className="spec text-white/75 mt-3">{s.label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ════════════════════ SERVICES ════════════════════ */}
@@ -186,121 +215,115 @@ export default function ServicesPage() {
             <div className="svc-rule w-24 mt-7 mb-6" />
             <p className="text-ash text-base lg:text-lg leading-relaxed">
               Pick a single fix or hand us the whole exterior — either way you
-              get one crew, one estimate, and zero finger-pointing. Tap any card
-              to see the work and what&apos;s included.
+              get one crew, one estimate, and zero finger-pointing. Each trade
+              below shows exactly what it covers and what&apos;s included.
             </p>
           </Reveal>
 
-          {/* card grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {/* alternating feature rows — image one side, full detail the other */}
+          <div className="space-y-16 lg:space-y-24">
             {cards.map((s, i) => {
               const Icon = serviceIcons[s.slug];
+              const imageRight = i % 2 === 1;
               return (
-                <Reveal
-                  key={s.slug}
-                  delay={Math.min(i * 70, 300)}
-                  variant="zoom"
-                  className={s.feature ? "md:col-span-2" : ""}
-                >
-                  <Link
-                    href={`/services/${s.slug}`}
-                    className="svc-card group relative block h-full overflow-hidden rounded-3xl bg-char focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                  >
-                    {/* photo */}
-                    <div
-                      className={`relative w-full overflow-hidden ${
-                        s.feature ? "aspect-[16/11] sm:aspect-[16/9]" : "aspect-[4/5] sm:aspect-[3/4]"
+                <Reveal key={s.slug}>
+                  <article className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+
+                    {/* ── MEDIA ── */}
+                    <Link
+                      href={`/services/${s.slug}`}
+                      aria-label={`Explore ${s.title}`}
+                      className={`svc-card group relative block overflow-hidden rounded-3xl ring-1 ring-line focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                        imageRight ? "lg:order-2" : "lg:order-1"
                       }`}
                     >
-                      <Image
-                        src={s.image}
-                        alt={`${s.title} project by A&E Exteriors LLC in New Jersey`}
-                        fill
-                        className="object-cover object-[center_70%] transition-transform duration-[900ms] ease-out group-hover:scale-105"
-                        sizes={s.feature ? "(max-width:1024px) 100vw, 66vw" : "(max-width:768px) 100vw, 33vw"}
-                        priority={i < 2}
-                      />
-                      {/* flat dark tint for legibility (no gradient) */}
-                      <div className="absolute inset-0 svc-card-tint" />
-                    </div>
-
-                    {/* ghost number */}
-                    <span className="ghost-num pointer-events-none absolute top-5 right-6 text-bone/25 text-6xl sm:text-7xl select-none">
-                      {s.num}
-                    </span>
-
-                    {/* content pinned to bottom */}
-                    <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7 lg:p-8">
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-bone ring-1 ring-white/15 shadow-soft flex-shrink-0">
-                          {Icon ? <Icon className="w-7 h-7" /> : null}
+                      <div className="relative aspect-[4/3] lg:aspect-[5/4]">
+                        <Image
+                          src={s.image}
+                          alt={`${s.title} project by A&E Exteriors LLC in New Jersey`}
+                          fill
+                          className="object-cover object-[center_60%] transition-transform duration-[900ms] ease-out group-hover:scale-105"
+                          sizes="(max-width:1024px) 100vw, 50vw"
+                          priority={i < 2}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-coal/45 via-coal/0 to-transparent" aria-hidden="true" />
+                        {/* index chip */}
+                        <span className="spec absolute top-5 left-5 inline-flex items-center rounded-full bg-coal/80 text-bone px-3 py-1.5 backdrop-blur-sm">
+                          {s.num} / 07
                         </span>
-                        <div className="min-w-0">
-                          <h3 className="font-display font-bold text-bone text-2xl sm:text-3xl tracking-tight leading-none">
-                            {s.title}
-                          </h3>
-                          <p className="spec text-ember mt-1.5 truncate">{s.tagline}</p>
-                        </div>
+                        {/* icon + title chip */}
+                        <span className="absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-full bg-bone/90 backdrop-blur px-4 py-2 shadow-soft">
+                          {Icon ? <Icon className="w-6 h-6" /> : null}
+                          <span className="font-display font-bold text-coal text-sm tracking-tight">{s.title}</span>
+                        </span>
+                      </div>
+                    </Link>
+
+                    {/* ── CONTENT ── */}
+                    <div className={imageRight ? "lg:order-1 lg:pr-8" : "lg:order-2 lg:pl-8"}>
+                      <div className="flex items-center gap-4 mb-5">
+                        <span className="ghost-num text-brand/25 text-6xl lg:text-7xl leading-none">{s.num}</span>
+                        <span className="h-px flex-1 bg-line" />
+                        <span className="spec text-stone">{s.count} Services</span>
                       </div>
 
-                      {s.feature && (
-                        <>
-                          <p className="text-bone/75 text-sm leading-relaxed max-w-xl mb-4 hidden sm:block">
-                            {s.blurb}
-                          </p>
-                          <ul className="flex flex-wrap gap-2 mb-5">
-                            {s.included.map((sub) => (
-                              <li
-                                key={sub}
-                                className="inline-flex items-center gap-1.5 rounded-full bg-bone/10 ring-1 ring-bone/15 px-3 py-1 text-bone/85 text-xs"
-                              >
-                                <Check className="w-3 h-3 text-ember" />
-                                {sub}
-                              </li>
-                            ))}
-                            <li className="inline-flex items-center rounded-full bg-ember px-3 py-1 text-white text-xs font-semibold">
-                              +{s.count - s.included.length} more
-                            </li>
-                          </ul>
-                        </>
-                      )}
+                      <h3 className="font-display font-bold text-coal text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.02]">
+                        {s.title}
+                      </h3>
+                      <p className="text-brand text-base font-semibold mt-2.5">{s.tagline}</p>
+                      <p className="text-ash text-base leading-relaxed mt-5 max-w-xl">{s.blurb}</p>
 
-                      <span className="inline-flex items-center gap-1.5 font-display font-bold text-bone text-sm transition-colors group-hover:text-ember">
-                        Explore {s.title}
-                        <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
+                      {/* full included checklist */}
+                      <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 max-w-xl">
+                        {s.included.map((sub) => (
+                          <li key={sub} className="flex items-center gap-2.5 text-coal/80 text-sm">
+                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-brand/10 text-brand flex-shrink-0">
+                              <Check className="w-3 h-3" />
+                            </span>
+                            {sub}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-8">
+                        <Link href={`/services/${s.slug}`} className="btn btn-ink">
+                          Explore {s.title}
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
                     </div>
-                  </Link>
+                  </article>
                 </Reveal>
               );
             })}
-
-            {/* inline call card — lives inside the grid (flat brand color, no gradient) */}
-            <Reveal delay={120} variant="zoom">
-              <div className="relative h-full overflow-hidden rounded-3xl bg-brand p-7 lg:p-8 flex flex-col justify-between">
-                <div className="relative">
-                  <span className="spec text-white/70 mb-4 block">Free Estimate</span>
-                  <h3 className="font-display font-bold text-white text-2xl sm:text-3xl tracking-tight leading-tight mb-3">
-                    Not sure which service you need?
-                  </h3>
-                  <p className="text-white/85 text-sm leading-relaxed">
-                    Tell us what&apos;s going on with your home — we&apos;ll take
-                    a look and give you a straight, no-pressure answer.
-                  </p>
-                </div>
-                <div className="relative mt-7 flex flex-col gap-3">
-                  <Link href="/contact" className="btn btn-bone w-full justify-center">
-                    Request Free Estimate
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                  <a href="tel:7329560411" className="btn btn-ink w-full justify-center">
-                    <Phone className="w-4 h-4" />
-                    {PHONE}
-                  </a>
-                </div>
-              </div>
-            </Reveal>
           </div>
+
+          {/* full-width "not sure?" CTA band */}
+          <Reveal className="mt-16 lg:mt-24">
+            <div className="relative overflow-hidden rounded-3xl bg-brand px-6 sm:px-10 lg:px-14 py-10 lg:py-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-7">
+              <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-12 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
+              <div className="relative max-w-xl">
+                <span className="spec text-white/70 mb-3 block">Free Estimate</span>
+                <h3 className="font-display font-bold text-white text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight">
+                  Not sure which service you need?
+                </h3>
+                <p className="text-white/85 text-sm sm:text-base leading-relaxed mt-3">
+                  Tell us what&apos;s going on with your home — we&apos;ll take a look and give you a
+                  straight, no-pressure answer.
+                </p>
+              </div>
+              <div className="relative flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                <Link href="/contact" className="btn btn-bone justify-center">
+                  Request Free Estimate
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+                <a href="tel:7329560411" className="btn btn-ink justify-center">
+                  <Phone className="w-4 h-4" />
+                  {PHONE}
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
