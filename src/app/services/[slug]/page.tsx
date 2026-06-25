@@ -104,18 +104,16 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ════════ HERO ════════ */}
       <section className="relative surface-ink overflow-hidden">
-        {service.images.length > 0 && (
-          <div className="absolute inset-0">
-            <Image
-              src={service.images[0]}
-              alt={`${service.title} by A&E Exteriors LLC in New Jersey`}
-              fill
-              priority
-              className="object-cover scale-105 animate-[heroPan_22s_ease-in-out_infinite_alternate]"
-              sizes="100vw"
-            />
-          </div>
-        )}
+        <div className="absolute inset-0">
+          <Image
+            src="/showcase/home.png"
+            alt={`${service.title} by A&E Exteriors LLC in New Jersey`}
+            fill
+            priority
+            className="object-cover scale-105 animate-[heroPan_22s_ease-in-out_infinite_alternate]"
+            sizes="100vw"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/85 to-ink/55" aria-hidden="true" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/30" aria-hidden="true" />
         <div className="absolute inset-0 tex-blueprint opacity-25 tex-fade-top pointer-events-none" aria-hidden="true" />

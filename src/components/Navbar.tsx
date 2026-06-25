@@ -4,19 +4,20 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone, ArrowRight, ShieldCheck } from "@/components/icons";
+import { Phone, ArrowRight, ShieldCheck, Clock } from "@/components/icons";
 import { PHONE, LICENSE } from "@/lib/seo-data";
 
 const nav = [
-  { label: "Services", href: "/services" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Service Areas", href: "/areas" },
-  { label: "Resources", href: "/resources" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Home", href: "/", desc: "Back to the start" },
+  { label: "Services", href: "/services", desc: "Masonry, roofing, siding & more" },
+  { label: "Gallery", href: "/gallery", desc: "See our recent NJ projects" },
+  { label: "Service Areas", href: "/areas", desc: "All 21 New Jersey counties" },
+  { label: "Resources", href: "/resources", desc: "Guides & homeowner tips" },
+  { label: "About", href: "/about", desc: "Meet the family-owned crew" },
+  { label: "Contact", href: "/contact", desc: "Get your free estimate" },
 ];
 
-const mobileNav = [...nav, { label: "Financing", href: "/financing" }];
+const mobileNav = [...nav, { label: "Financing", href: "/financing", desc: "0% financing available" }];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -36,6 +37,19 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => setInfoOpen(false), [pathname]);
+
+  // Lock body scroll + close on Escape while the full-screen mobile menu is open.
+  useEffect(() => {
+    if (!open) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   // Auto-open the promo strip 1s after load.
   useEffect(() => {
@@ -165,7 +179,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Main bar ── */}
-      <div className={`transition-colors duration-300 ${solid ? "bg-bone border-b-2 border-coal/10" : "bg-transparent"}`}>
+      <div className={`relative z-50 transition-colors duration-300 ${solid || open ? "bg-bone border-b-2 border-coal/10" : "bg-transparent"}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -256,42 +270,80 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile panel */}
-          <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-[680px] pb-5" : "max-h-0"}`}>
-            <div className="surface-ink relative overflow-hidden mt-1">
-              <div className="absolute inset-0 tex-blueprint opacity-60 pointer-events-none" aria-hidden="true" />
-              <div className="relative px-6 py-5">
-                <nav className="flex flex-col">
-                  {mobileNav.map((l) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      onClick={() => setOpen(false)}
-                      className={`flex items-center justify-between py-3.5 font-display uppercase text-sm tracking-[0.04em] border-b border-steel/70 transition-colors ${
-                        isActive(l.href) ? "text-ember" : "text-bone hover:text-ember"
-                      }`}
-                    >
-                      <span>{l.label}</span>
-                      <ArrowRight className="w-4 h-4 text-brand" />
-                    </Link>
-                  ))}
-                </nav>
-                <Link
-                  href="/contact"
-                  onClick={() => setOpen(false)}
-                  className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-deep text-white font-display uppercase text-sm tracking-[0.06em] py-3.5 transition-colors"
-                >
-                  Free Estimate
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a
-                  href="tel:7329560411"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 w-full inline-flex items-center justify-center gap-2 border-2 border-bone/25 text-bone font-display uppercase text-sm tracking-[0.06em] py-3"
-                >
-                  <Phone className="w-4 h-4" />
-                  732·956·0411
-                </a>
+        </div>
+      </div>
+
+      {/* ── Full-screen mobile menu overlay ── */}
+      <div
+        className={`lg:hidden fixed inset-0 z-40 transition-opacity duration-300 ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!open}
+      >
+        <div className="relative h-[100dvh] w-screen overflow-y-auto overscroll-contain bg-coal">
+          {/* spacer so content clears the fixed top bar (utility strip + main bar) */}
+          <div className="relative flex min-h-full flex-col px-6 pt-24 pb-10">
+            <span
+              className={`spec text-bone/40 mb-4 transition-all duration-500 ${open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"}`}
+              style={{ transitionDelay: open ? "80ms" : "0ms" }}
+            >
+              Menu
+            </span>
+
+            <nav className="flex flex-col">
+              {mobileNav.map((l, i) => {
+                const active = isActive(l.href);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    style={{ transitionDelay: open ? `${120 + i * 45}ms` : "0ms" }}
+                    className={`group flex items-center justify-between gap-4 py-3.5 border-b border-bone/10 transition-all duration-500 ${
+                      open ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+                    }`}
+                  >
+                    <span className="min-w-0">
+                      <span className={`block font-display uppercase text-lg tracking-[0.04em] transition-colors ${active ? "text-brand" : "text-bone group-hover:text-brand"}`}>
+                        {l.label}
+                      </span>
+                      <span className="block text-bone/45 text-xs mt-0.5 normal-case tracking-normal">{l.desc}</span>
+                    </span>
+                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 transition-colors ${active ? "bg-brand text-white" : "bg-bone/[0.06] text-brand group-hover:bg-brand group-hover:text-white"}`}>
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="mt-auto pt-8">
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brand hover:bg-brand-deep text-white font-display uppercase text-base tracking-[0.06em] py-4 shadow-[0_12px_28px_-12px_rgba(180,10,10,0.6)] transition-colors"
+              >
+                Free Estimate
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <a
+                href="tel:7329560411"
+                onClick={() => setOpen(false)}
+                className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full border-2 border-bone/25 text-bone font-display uppercase text-base tracking-[0.06em] py-3.5"
+              >
+                <Phone className="w-5 h-5" />
+                732·956·0411
+              </a>
+
+              <div className="mt-6 flex flex-col items-center gap-1.5 text-center">
+                <span className="inline-flex items-center gap-2 text-bone/55 text-xs">
+                  <Clock className="w-3.5 h-3.5 text-brand" />
+                  Mon–Fri 7–6 · Sat 8–3
+                </span>
+                <span className="inline-flex items-center gap-2 spec text-bone/40">
+                  <ShieldCheck className="w-3.5 h-3.5 text-brand" />
+                  NJ Lic #{LICENSE} · Licensed &amp; Insured
+                </span>
               </div>
             </div>
           </div>

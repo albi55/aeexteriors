@@ -106,18 +106,16 @@ export default async function CityServicePage({ params }: { params: Promise<{ sl
 
       {/* ════════════════════ HERO ════════════════════ */}
       <section className="relative overflow-hidden">
-        {data.images.length > 0 && (
-          <div className="absolute inset-0">
-            <Image
-              src={data.images[0]}
-              alt={`${data.title} in ${data.city}, NJ`}
-              fill
-              priority
-              className="object-cover scale-105 animate-[heroPan_20s_ease-in-out_infinite_alternate]"
-              sizes="100vw"
-            />
-          </div>
-        )}
+        <div className="absolute inset-0">
+          <Image
+            src="/showcase/home.png"
+            alt={`${data.title} in ${data.city}, NJ`}
+            fill
+            priority
+            className="object-cover scale-105 animate-[heroPan_20s_ease-in-out_infinite_alternate]"
+            sizes="100vw"
+          />
+        </div>
         <div className="absolute inset-0 svc-tint-strong" aria-hidden="true" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-36 lg:pt-44 pb-20 lg:pb-28">
